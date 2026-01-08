@@ -1,6 +1,4 @@
-
 let db;
-
 export function initDB() {
   return new Promise((resolve, reject) => {
     const request = window.indexedDB.open("todoAppDB", 1);
@@ -19,7 +17,6 @@ export function initDB() {
     request.onupgradeneeded = (event) => {
       db = event.target.result;
 
-     
       if (!db.objectStoreNames.contains("projects")) {
         const projectStore = db.createObjectStore("projects", {
           keyPath: "id",
@@ -28,18 +25,26 @@ export function initDB() {
         projectStore.createIndex("name", "name", { unique: true });
       }
 
-   
       if (!db.objectStoreNames.contains("tasks")) {
         const taskStore = db.createObjectStore("tasks", {
           keyPath: "id",
           autoIncrement: true,
         });
 
-    
         taskStore.createIndex("projectId", "projectId", { unique: false });
-        taskStore.createIndex("completed", "completed", { unique: false }); 
-        taskStore.createIndex("priority", "priority", { unique: false });   
-        taskStore.createIndex("deadline", "deadline", { unique: false });   
+        taskStore.createIndex("completed", "completed", { unique: false });
+        taskStore.createIndex("priority", "priority", { unique: false });
+        taskStore.createIndex("deadline", "deadline", { unique: false });
+      }
+      if (!db.objectStoreNames.contains("users")) {
+        const userStore = db.createObjectStore("users", {
+          keyPath: "id",
+          autoIncrement: true,
+        });
+
+        userStore.createIndex("email", "email", { unique: true });
+        userStore.createIndex("name", "name", { unique: false });
+        userStore.createIndex("phone", "phone", { unique: false });
       }
     };
   });

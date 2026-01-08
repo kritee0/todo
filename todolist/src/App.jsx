@@ -13,11 +13,17 @@ import TaskPage from "./pages/Taskpages";
 import AddTaskForm from "./pages/Addtask"; 
 import ViewTasks from "./pages/ViewTasks"; 
 import { initDB } from "./database/db";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
+    <>
+    <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
     <Route path="/" element={<Rootlayout />}>
-      <Route path="dashboard" element={<Dashboard />} />
+         
+      <Route path="/dashboard" element={<Dashboard />} />
 
     
       <Route path="projects" element={<AddProject />} />
@@ -27,7 +33,9 @@ const router = createBrowserRouter(
       <Route path="view/tasks" element={<ViewTasks />} />
       <Route path="/tasks/new" element={<AddTaskForm />} />
     </Route>
+      </>
   )
+
 );
 
 const App = () => {

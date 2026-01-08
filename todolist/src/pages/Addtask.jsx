@@ -2,26 +2,31 @@
 import React, { useState, useEffect } from "react";
 import AddTaskFormUI from "../components/viewTaskUI/AddTaskForm";
 import { addTask, updateTask } from "../hook/TaskCrud";
-
+import { ToastContainer, toast } from 'react-toastify';
 const AddTaskForm = ({ projectId, onTaskAdded, initialData }) => {
   const [addTitle, setAddTitle] = useState("");
   const [addDescription, setAddDescription] = useState("");
   const [priority, setPriority] = useState("none");
   const [selectedPriority, setSelectedPriority] = useState(false);
   const [showInbox, setShowInbox] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [projects, setProjects] = useState([]);
   const [showDate, setShowDate] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState("");
   const [selectedProjectName, setSelectedProjectName] = useState("");
+  const[remainderDate,setRemainderDate]=useState()
+  
+  const[showRemainderDate,setShowRemainderDate]=useState(false)
 
   useEffect(() => {
     if (initialData) {
       setAddTitle(initialData.title || "");
       setAddDescription(initialData.description || "");
       setPriority(initialData.priority || "none");
-      setDate(initialData.date ? new Date(initialData.date) : new Date());
+      setDate(initialData.date ? new Date(initialData.date) : null);
+      setRemainderDate(initialData.remainderDate ? new Date(initialData.remainderDate) : null);
+
       setSelectedProjectId(initialData.projectId || "");
       setShowForm(true);
     } else {
@@ -30,6 +35,7 @@ const AddTaskForm = ({ projectId, onTaskAdded, initialData }) => {
       setPriority("none");
       setSelectedProjectId("");
       setDate(new Date());
+      setRemainderDate()
     }
   }, [initialData]);
 
@@ -43,6 +49,8 @@ const AddTaskForm = ({ projectId, onTaskAdded, initialData }) => {
       priority,
       projectId: selectedProjectId || projectId,
       date,
+      remainderDate,
+      remainded:false,
       createdAt: new Date(),
     };
 
@@ -52,9 +60,12 @@ const AddTaskForm = ({ projectId, onTaskAdded, initialData }) => {
     } else {
       result = await addTask(taskData);
     }
+     console.log("task is",taskData)
 
     if (onTaskAdded) onTaskAdded(result);
     setShowForm(false);
+    toast("Task added succesfully!")
+   
   };
 
   const handleProjectSelect = (id, name) => {
@@ -64,6 +75,8 @@ const AddTaskForm = ({ projectId, onTaskAdded, initialData }) => {
   };
 
   return (
+    <>
+    
     <AddTaskFormUI
       addTitle={addTitle}
       setAddTitle={setAddTitle}
@@ -74,7 +87,9 @@ const AddTaskForm = ({ projectId, onTaskAdded, initialData }) => {
       selectedPriority={selectedPriority}
       date={date}
       setDate={setDate}
-      showForm={showForm}
+      remainderDate={remainderDate}
+      setRemainderDate={setRemainderDate}
+      showForm={showForm}a
       setShowForm={setShowForm}
       showDate={showDate}
       setShowDate={setShowDate}
@@ -85,7 +100,12 @@ const AddTaskForm = ({ projectId, onTaskAdded, initialData }) => {
       onProjectSelected={handleProjectSelect}
       onSubmit={handleSubmit}
       initialData={initialData}
+      showRemainderDate={showRemainderDate}
+      setShowRemainderDate={setShowRemainderDate}
+      
     />
+     <ToastContainer />
+     </>
   );
 };
 

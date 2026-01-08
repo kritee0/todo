@@ -19,7 +19,6 @@ const Priority = ({ tasks, setTask }) => {
     const sortedTasks = sortByPriority(tasks);
     setTask(sortedTasks);
   }
-
   return (
     <>
       <div>

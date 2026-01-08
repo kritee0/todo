@@ -1,0 +1,66 @@
+
+.register-container{
+     background-color: cornflowerblue;
+     width:100vw;
+     height:100vh;
+     display:flex;
+     align-items: center;
+     justify-content: flex-end;
+     padding: 8px;
+    
+}
+.register-box{
+    width:420px;
+    height:90vh ;
+    background-color: white;
+    border-radius: 50px 50px 50px 50px;
+    display: flex;
+    flex-direction: column;
+   
+    align-items: center;
+    justify-content: center;
+    
+
+}
+.register-content{
+    width: 100%;
+    padding: 8px;
+    text-align: center;   
+    display: flex;
+    flex-direction: column;
+   
+    align-items: center;
+
+}
+.register-input{ 
+    padding: 8px;
+    width: 84%;
+    border: 2px solid gray; 
+    border-radius: 10px 10px 10px 10px;
+    margin-bottom: 4px;
+   
+    align-items: center;
+    
+    
+
+}
+.label-content{
+  
+ 
+  align-self: flex-start;   
+  padding: 4px;
+  margin-left: 20px;
+
+  font-size: 14px;
+
+
+}
+.sumbit-button{
+    color: white;
+    width: 50%;
+    padding: 8px;
+    background-color: rgba(23, 23, 236, 0.575);
+    border-radius:10px 10px 10px 10px ;
+    margin-top: 8px;
+
+}

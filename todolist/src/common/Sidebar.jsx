@@ -4,7 +4,7 @@ import { TbCategoryPlus } from "react-icons/tb";
 
 const Sidebar = () => {
   const sidebarLinks = [
-    { to: "/", label: "Dashboard", icon: FaHome },
+    { to: "/dashboard", label: "Dashboard", icon: FaHome },
     { to: "/tasks/new", label: "Add Task", icon: FaPlus },
     { to: "/view/tasks", label: "View Tasks", icon: FaTasks },
     { to: "/projects", label: "Projects", icon: TbCategoryPlus },

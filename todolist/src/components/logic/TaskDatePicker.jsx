@@ -4,7 +4,7 @@ import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 
-const TaskDatePicker = ({ date, setDate, close }) => {
+const TaskDatePicker = ({ date, setDate, close  }) => {
   const today = new Date();
   const tomorrow = new Date();
   tomorrow.setDate(today.getDate() + 1);
@@ -14,6 +14,7 @@ const TaskDatePicker = ({ date, setDate, close }) => {
 
   return (
     <div className="absolute bg-white w-80 rounded-xl shadow-xl p-4 z-50">
+     
       <input
         placeholder="Type a date"
         className="w-full p-2 border-b outline-none mb-2"

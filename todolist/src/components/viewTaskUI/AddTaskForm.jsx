@@ -26,6 +26,11 @@ const AddTaskFormUI = ({
   onProjectSelected,
   onSubmit,
   initialData,
+  remainderDate,
+  setRemainderDate, 
+  showRemainderDate,
+  setShowRemainderDate
+  
 }) => {
   if (!showForm)
     return (
@@ -77,8 +82,13 @@ const AddTaskFormUI = ({
               text={selectedProjectName || "Inbox"}
               onClick={() => setShowInbox(!showInbox)}
             />
-            <TaskButton text={date.toDateString()} onClick={() => setShowDate(true)} />
+           
+ 
+
+              <TaskButton text={ date?date.toDateString():"Date"} onClick={()=>setShowDate(true)}/>
+                 <TaskButton text={ remainderDate?remainderDate.toDateString():"set Remainder"}   onClick={() => setShowRemainderDate(true)} />
             <TaskButton text={selectedPriority || priority} onClick={() => setPriority("none")} />
+              
           </div>
 
           <TaskButton
@@ -87,9 +97,14 @@ const AddTaskFormUI = ({
             onClick={onSubmit}
           />
         </div>
+        
 
      
-        {showDate && <TaskDatePicker date={date} setDate={setDate} close={() => setShowDate(false)} />}
+        {showDate && <TaskDatePicker date={date} setDate={setDate}  close={() => setShowDate(false)} />}
+        {showRemainderDate && <TaskDatePicker date={remainderDate} setDate={setRemainderDate} close={() => setShowRemainderDate(false)} />}
+     
+     
+        
 
        
         {showInbox && (

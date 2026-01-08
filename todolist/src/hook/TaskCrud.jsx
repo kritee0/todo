@@ -33,3 +33,14 @@ export function updateTask(task){
 export function deleteTask(id){
     return runTransaction("tasks","readwrite",(store)=>store.delete(id))
 }
+export function deleteTasksByProjectId(projectId) {
+  return runTransaction("tasks", "readwrite", (store) => {
+    const index = store.index("projectId");
+    const range = IDBKeyRange.only(Number(projectId));
+    return index.openCursor(range).then(function deleteAll(cursor) {
+      if (!cursor) return;
+      cursor.delete();
+      return cursor.continue().then(deleteAll);
+    });
+  });
+}

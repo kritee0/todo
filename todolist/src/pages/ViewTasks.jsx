@@ -45,11 +45,11 @@ const ViewTasks = () => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
   };
 
-  const handleEditSave = async (id, newData) => {
-    const updatedTask = { id, ...newData };
-    await updateTask(updatedTask);
+  const handleEditSave = async (id, newData) => {//takes tow argument  
+    const updatedTask = { id, ...newData };// this is new update task
+    await updateTask(updatedTask);// we update on database
     setTasks((prev) =>
-      prev.map((task) => (task.id === id ? updatedTask : task))
+      prev.map((task) => (task.id === id ? updatedTask : task))// update localstoragea
     );
     setEditingTask(null);
   };
