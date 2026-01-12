@@ -3,8 +3,7 @@ import TaskButton from "../../../pages/TaskButton";
 import { RxCross2 } from "react-icons/rx";
 import TaskDatePicker from "../../logic/TaskDatePicker";
 import AddProject from "../../../pages/Addproject";
-import Priority from "../../logic/Priority";
-import { BsPlusLg, BsThreeDots } from "react-icons/bs";
+import Priority from "../../logic/Priority"
 import { useLocation } from "react-router-dom";
 
 const AddTaskFormUI = ({
@@ -12,8 +11,7 @@ const AddTaskFormUI = ({
   setAddTitle,
   addDescription,
   setAddDescription,
-  subTasks,
-  setSubTasks,
+  
   priority,
   setPriority,
   date,
@@ -32,8 +30,7 @@ const AddTaskFormUI = ({
   setRemainderDate,
   showRemainderDate,
   setShowRemainderDate,
-  handleplus,
-  handleDot,
+ 
 }) => {
   
   const {pathname}=useLocation()
@@ -79,37 +76,7 @@ const AddTaskFormUI = ({
       />
 
 
-      {subTasks.map((task, index) => (
-        <div key={index} className="flex items-center space-x-3 mb-2">
-          <input
-            type="text"
-            placeholder="Subtask title"
-            value={task.title}
-            onChange={(e) => {
-              const updated = [...subTasks];
-              updated[index].title = e.target.value;
-              setSubTasks(updated);
-            }}
-            className="outline-none border-b-2 border-gray-300 w-full p-1"
-          />
-          <BsThreeDots
-            className="cursor-pointer"
-            onClick={() => handleDot(index)}
-          />
-          <BsPlusLg className="cursor-pointer" onClick={handleplus} />
-
-          {task.showPriority && (
-            <Priority
-              priority={task.priority}
-              setPriority={(value) => {
-                const updated = [...subTasks];
-                updated[index].priority = value;
-                setSubTasks(updated);
-              }}
-            />
-          )}
-        </div>
-      ))}
+     
 
    
       <div className="flex justify-between items-center mt-4 flex-wrap gap-2">

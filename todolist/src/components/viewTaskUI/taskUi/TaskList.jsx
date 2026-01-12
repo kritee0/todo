@@ -39,7 +39,7 @@ const TaskList = ({
           {finalTasks.map((todo) => (
             <>
               <div className="flex justify-between  items-center border-2 border-gray-200 bg-white shadow-md h-24 p-4 rounded-md cursor-pointer">
-                <div className=" flex items-center">
+                <div className=" flex items-center" >
                   <div className=" flex items-center space-x-4">
                     <input
                       type="checkbox"
@@ -65,8 +65,8 @@ const TaskList = ({
                           {new Date(todo.createdAt).toLocaleString()}
                         </p>
                         <p
-                          className="text-sm text-gray-500"
-                          onClick={() => setOpenDetails(todo.id)}
+                          className="text-sm text-blue-500 underline" onClick={() => setOpenDetails(todo.id)}
+                          
                         >
                           ViewTask Details
                         </p>
@@ -78,18 +78,21 @@ const TaskList = ({
                 <div className="flex space-x-3">
                   <p className="text-md text-red ">{todo.priority}</p>
                 </div>
-              </div>
-            </>
-          ))}
-        </div>
-      </div>
-      <TaskDetail
+                  {openDetails && openDetails===todo.id &&
+        <TaskDetail
         openDetails={openDetails}
         setOpenDetails={setOpenDetails}
         tasks={tasks}
         onEdit={onEdit}
         onDelete={onDelete}
-      />
+      />}
+    
+              </div>
+            </>
+          ))}
+        </div>
+      </div>
+    
     </>
   );
 };

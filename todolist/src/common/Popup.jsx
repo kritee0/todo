@@ -12,7 +12,7 @@ const Popup = ({ children, onClose }) => {
     
       <div className="   fixed  inset-0 z-50 flex items-center justify-center">
         <div
-          className=" max-w-3xl w-full  bg-white  p-6 rounded-lg shadow-2xl"
+          className=" max-w-2xl  relative w-full  bg-white  p-6 rounded-lg shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
           {children}

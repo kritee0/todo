@@ -9,9 +9,7 @@ const AddTaskForm = ({ projectId, onTaskAdded, initialData }) => {
   const navigate=useNavigate()
   const [addTitle, setAddTitle] = useState("");
   const [addDescription, setAddDescription] = useState("");
-const [subTasks, setSubTasks] = useState([
-  { title: "", priority: "none", showPriority: false }
-]);
+
 
   const [priority, setPriority] = useState("none");
 const [showPriority, setShowPriority] = useState(false)
@@ -23,18 +21,14 @@ const [showPriority, setShowPriority] = useState(false)
   const [selectedProjectId, setSelectedProjectId] = useState("");
   const [selectedProjectName, setSelectedProjectName] = useState("");
   const[remainderDate,setRemainderDate]=useState()
-  const[total ,setTotal] =useState(1)
+  
   const[showRemainderDate,setShowRemainderDate]=useState(false)
 
   useEffect(() => {
     if (initialData) {
       setAddTitle(initialData.title || "");
       setAddDescription(initialData.description || "");
-     setSubTasks(
-  initialData?.subTasks?.length
-    ? initialData.subTasks
-    : [{ title: "", priority: "none", showPriority: false }]
-);
+
 
       setPriority(initialData.priority || "none");
       setDate(initialData.date ? new Date(initialData.date) : null);
@@ -45,9 +39,7 @@ const [showPriority, setShowPriority] = useState(false)
     } else {
       setAddTitle("");
       setAddDescription("");
-     setSubTasks([
-    { title: "", priority: "none", showPriority: false }
-  ]);
+    
 
       setPriority("none");
       setSelectedProjectId("");
@@ -60,7 +52,7 @@ const [showPriority, setShowPriority] = useState(false)
   const resetForm = () => {
   setAddTitle("");
   setAddDescription("");
-  setSubTasks([{ title: "", priority: "none", showPriority: false }]);
+
   setPriority("none");
   setDate(null);
   setRemainderDate(null);
@@ -76,7 +68,7 @@ const [showPriority, setShowPriority] = useState(false)
     const taskData = {
       title: addTitle,
       description: addDescription,
-      subTasks:subTasks,
+      subTasks:[],
       completed: false,
       priority,
       projectId: selectedProjectId || projectId,
@@ -110,23 +102,6 @@ const [showPriority, setShowPriority] = useState(false)
     setShowInbox(false);
   };
 
-const handleplus = () => {
-  setSubTasks([
-    ...subTasks,
-    { title: "", priority: "none", showPriority: false }
-  ]);
-};
-const handleDot = (index) => {
-  setSubTasks(subTasks.map((st, i) =>
-    i === index
-      ? { ...st, showPriority: !st.showPriority }
-      : { ...st, showPriority: false }
-  ));
-};
-
-
-
-
 
 
   return (
@@ -138,8 +113,7 @@ const handleDot = (index) => {
       addDescription={addDescription}
 
       setAddDescription={setAddDescription}
-      subTasks={subTasks}
-      setSubTasks={setSubTasks}
+      
       priority={priority}
       setPriority={setPriority}
       showPriority={showPriority}
@@ -162,9 +136,7 @@ const handleDot = (index) => {
       initialData={initialData}
       showRemainderDate={showRemainderDate}
       setShowRemainderDate={setShowRemainderDate}
-      handleplus={handleplus}
-      total={total}
-      handleDot={handleDot}
+     
     
       
     />
