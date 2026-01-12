@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { addProject, getProject, deleteProject, updateProject } from '../hook/ProjectCrud';
 import { deleteTask } from '../hook/TaskCrud';
 import { useNavigate } from 'react-router-dom';
-import ProjectUI from '../components/viewTaskUI/ProjectUI.JSX';
+import ProjectUI from '../components/viewTaskUI/formView/ProjectUI.jsx';
 
 const AddProject = ({ onProjectSelected, onProjectCreated }) => {
   const navigate = useNavigate();

@@ -1,45 +1,59 @@
 
 .register-container{
-     background-color: cornflowerblue;
+     
      width:100vw;
      height:100vh;
      display:flex;
-     align-items: center;
-     justify-content: flex-end;
-     padding: 8px;
+     padding: 4px;
+     background: url(../assets/images.jpg);
     
+   
+    
+}
+.box{
+    background-color:orangered;
+   
+    width: 20vw;
+    height: 20vh;
+    border-radius: 0px 000px 999px 888px;
+    left: -50px;
 }
 .register-box{
     width:420px;
     height:90vh ;
-    background-color: white;
+ 
     border-radius: 50px 50px 50px 50px;
     display: flex;
+    flex: 1;
     flex-direction: column;
-   
+   padding: 4px;
     align-items: center;
     justify-content: center;
-    
+     
 
 }
 .register-content{
-    width: 100%;
-    padding: 8px;
+    width: 64%;
+   padding: 16px;
     text-align: center;   
     display: flex;
     flex-direction: column;
    
     align-items: center;
-
+    background-color: white;
+    border-radius: 50px;
+   
+  
 }
 .register-input{ 
     padding: 8px;
-    width: 84%;
+    width: 88%;
     border: 2px solid gray; 
     border-radius: 10px 10px 10px 10px;
     margin-bottom: 4px;
    
     align-items: center;
+     
     
     
 
@@ -47,11 +61,13 @@
 .label-content{
   
  
-  align-self: flex-start;   
-  padding: 4px;
-  margin-left: 20px;
-
-  font-size: 14px;
+  align-self: flex-start;  
+  font-size: smaller;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+   padding: 4px;
+    font-size: 18px;
+    padding-left: 24px;
+ 
 
 
 }

@@ -16,8 +16,20 @@ const Login = () => {
     navigate("/register")
   }
 
-  return (
+  return ( 
+    <>
     <div className="login-container">
+     
+
+      <div className="circle "></div>
+      
+      <div className="login-text">
+        
+       <h1 className="title">TodoApp</h1>
+
+       <p>Welcome back!</p>
+       <p>Your goals, tasks, and ideas are waiting for you. Log in to stay organized, track progress, and make every day more productive."</p> 
+      </div>
      
      
       
@@ -62,6 +74,7 @@ const Login = () => {
        
       </div>
     </div>
+    </> 
   );
 };
 

@@ -1,43 +1,19 @@
-import React, { useState } from 'react';
 
-const Priority = ({ tasks, setTask }) => {
-  const [selectedPriority, setSelectedPriority] = useState("none");
+import React from "react";
 
-  const priorityOrder = { high: 3, medium: 2, low: 1, none: 0 };
-
- 
-  function sortByPriority(tasks) {
-    return [...tasks].sort((a, b) => {
-      const aPriority = priorityOrder[a.priority] || 0;
-      const bPriority = priorityOrder[b.priority] || 0;
-      return bPriority - aPriority;
-    });
-  }
-
-
-  function handleSort() {
-    const sortedTasks = sortByPriority(tasks);
-    setTask(sortedTasks);
-  }
+const Priority = ({ priority, setPriority }) => {
   return (
-    <>
-      <div>
-        <select
-          value={selectedPriority}
-          onChange={(e) => setSelectedPriority(e.target.value)}
-          className="border p-2 rpi"
-        >
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-          <option value="none">None</option>
-        </select>
-
-        <button onClick={handleSort} className="ml-2 p-2 border">
-          Sort
-        </button>
-      </div>
-    </>
+    <select
+      value={priority}
+      onChange={(e) => setPriority(e.target.value)}
+      className="px-3 py-2  rounded-md border border-gray-300 text-sm"
+    >
+      <option value="">Select Priority</option>
+      <option value="high">High</option>
+      <option value="medium">Medium</option>
+      <option value="low">Low</option>
+    
+    </select>
   );
 };
 

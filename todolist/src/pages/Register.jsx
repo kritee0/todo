@@ -12,8 +12,9 @@ const Register = () => {
   }
   return (
     <div className="register-container">
+      <div className="box"></div>
       <div className="register-box">
-        <h2 className="font-bold  text-4xl mb-4">Register an Account</h2>
+        <h2 className="font-bold  text-2xl mt-2 mb-4">Register an Account</h2>
         <div className="register-content">
 
          <label className="label-content">Username</label>

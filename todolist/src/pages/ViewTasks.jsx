@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { getTasks, updateTask, deleteTask } from "../hook/TaskCrud";
 import AddTaskForm from "./Addtask";
 import { initDB } from "../database/db";
-import TaskList from "../components/viewTaskUI/TaskList";
+import TaskList from "../components/viewTaskUI/taskUi/TaskList";
+
 
 const ViewTasks = () => {
   const [tasks, setTasks] = useState([]);
-
   const [editingTask, setEditingTask] = useState(null);
-  const [filter, setFilter] = useState("all");
-
+  const [filter, setFilter] = useState("all")
   const filteredTasks = tasks.filter((task) => {
     if (filter === "completed") return task.completed === true;
     if (filter === "pending") return task.completed === false;
@@ -57,6 +56,7 @@ const ViewTasks = () => {
   return (
     <>
     <TaskList
+    
     tasks={filteredTasks}
     
     filter={filter}
@@ -66,6 +66,8 @@ const ViewTasks = () => {
     onToggle={handleToggle}
     onDelete={handleDelete}
     onEdit={setEditingTask}
+    editingTask={editingTask}
+    
 
 
 

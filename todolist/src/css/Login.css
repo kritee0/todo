@@ -4,27 +4,52 @@
   width: 100vw;
   height: 100vh;
   display: flex;
+ 
+  padding: 2rem;
+  background-color:white;
+  justify-content: center;
+ 
+  border: black ;
+  background: url(../assets/images.jpg);
+}
+.login-text{
+  max-width: 28rem;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: larger;
+
+  display: flex;
+  flex-direction: column; 
   align-items: center;
   justify-content: center;
-  background-color:rgb(0, 0, 62);
-  padding: 2rem;
+  margin-left: 400px;
+  text-wrap: 2px;
+  
+  
 }
-
-.login-left {
-  max-width: 28rem;
- align-content: center;
+.title{
+  font-size: 4rem;
+ 
+  font-family:cursive
+}
+.login-text p:nth-of-type(1){
+  font-size:4rem;
+  color: rgb(4, 4, 48);
+  font-family: fantasy;
+  font-weight: bolder;
 }
 
 .circle {
   position: absolute;
-  width: 600px;
-  height: 600px;
-  top:0;
-  background: burlywood;
-border-radius: 10px 50px 80px 40px;
+  width: 200px;
+  height: 90vh;
+
+  top:5;
+  background: rgb(11, 11, 71);
+   border-radius: 0px 333px 444px 0px;
+   left: -10px;
 
   padding: 8px; 
-  left: -90px;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,6 +68,14 @@ border-radius: 10px 50px 80px 40px;
   left: 4px;
   overflow-wrap: break-word;
 }
+.login-left {
+ 
+  display: flex;
+  flex: 3;
+
+
+
+}
 
 
 .login-box {
@@ -52,8 +85,9 @@ border-radius: 10px 50px 80px 40px;
   background: white;
   border-radius: 2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 2px solid #3b82f6; 
+  border: 2px solid rgb(2, 2, 46); 
   padding: 2rem;
+  margin-top: 24px;
 }
 
 .login-heading {
