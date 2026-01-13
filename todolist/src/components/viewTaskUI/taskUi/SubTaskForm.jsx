@@ -1,119 +1,126 @@
 import React, { useState } from "react";
 import Priority from "../../logic/Priority";
 import { LuPlus } from "react-icons/lu";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { MdDelete } from "react-icons/md";
 
-const SubTaskForm = ({  subTasks,setSubTasks,onClose }) => {
-  
-  const [title, setTitle] = useState("");
-  const [showDetails, setShowDetails] = useState(false);
-  const [date, setDate] = useState("");
-  const [remainderDate, setRemainderDate] = useState("");
-  const [priority, setPriority] = useState("none");
- 
+const SubTaskForm = ({  setSubTasks, setAddSubTask }) => {
+  const [showDetail, setShowDetail] = useState(false);
 
-  function handleSubmit() {
-    if (!title.trim()) return;
 
-    const newSubTask = {
-      id:Date.now(),
-      title,
-      date,
-      remainderDate,
-      priority,
-      completed: false,
-      createdAt: new Date()
-    };
 
-   setSubTasks([ ...subTasks, newSubTask]);
-    console.log(newSubTask)
+
+  const [currentSubTask, setCurrentSubTask] = useState({
+    title: "",
+    date: "",
+    remainderDate: "",
+    priority: "none",
+    completed: false,
+  });
+
+  const handleSave = () => {
+    if (!currentSubTask.title.trim()) return;
+
+    setSubTasks(prev => [
+      ...prev,
+      { ...currentSubTask, id: Date.now(), createdAt: new Date() }
+    ]);
+
    
+    setCurrentSubTask({
+      title: "",
+      date: "",
+      remainderDate: "",
+      priority: "none",
+      completed: false,
+    });
+console.log("data is",setSubTasks)
+    setShowDetail(false);
+  };
 
-  }
-  const handleMultipleSubTask=()=>{
 
-  }
-  
+  const removeSubTask = (id) => {
+    setSubTasks(prev => prev.filter(task => task.id !== id));
+  };
 
   return (
-    <>
-    <div className="bg-gray-50 p-4 rounded-xl space-y-3">
+    <div className="bg-gray-100 rounded-md px-3 py-2 space-y-3">
 
-{ subTasks.map(()=>{
-  <div key={id} className="flex justify-between">
-    <input
-        type="text"
-        placeholder="Add subtask title..."
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="w-full border-b bg-transparent outline-none text-sm px-1 py-1"
-       
-      />
-       <LuPlus onClick={handleMultipleSubTask} />
-      </div>   
+      <div className="flex gap-2 items-center">
+        <input
+          type="text"
+          placeholder="Add Subtask"
+          value={currentSubTask.title}
+          onChange={(e) =>
+            setCurrentSubTask(prev => ({ ...prev, title: e.target.value }))
+          }
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleSave();
+              setAddSubTask(false)
+            }
+          }}
+          className="w-full rounded-2xl text-black bg-white border-gray-400 px-3 py-2"
+        />
 
-})}
+        <button
+          onClick={() => setShowDetail(prev => !prev)}
+          className="text-blue-950 text-sm underline"
+        >
+          <BsThreeDotsVertical />
+        </button>
+      </div>
 
-
-
-  
-    
-
-      <button
-        className="text-xs text-blue-600 hover:underline"
-        onClick={() => setShowDetails(!showDetails)}
-      >
-        {showDetails ? "Hide details" : "+ Add details"}
-      </button>
-
-   
-      {showDetails && (
-        <div className="space-y-2 text-sm">
-
+      {showDetail && (
+        <div className="flex flex-col mt-2 space-y-2 text-sm">
           <div className="flex justify-between items-center">
             <span>Due Date</span>
             <input
               type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="border px-2 py-0.5 rounded"
+              value={currentSubTask.date}
+              onChange={(e) =>
+                setCurrentSubTask(prev => ({ ...prev, date: e.target.value }))
+              }
+              className="border px-2 rounded"
             />
           </div>
 
           <div className="flex justify-between items-center">
-            <span> Reminder</span>
+            <span>Reminder</span>
             <input
               type="datetime-local"
-              value={remainderDate}
-              onChange={(e) => setRemainderDate(e.target.value)}
-              className="border px-2 py-0.5 rounded"
+              value={currentSubTask.remainderDate}
+              onChange={(e) =>
+                setCurrentSubTask(prev => ({ ...prev, remainderDate: e.target.value }))
+              }
+              className="border px-2 rounded"
             />
           </div>
 
           <div className="flex justify-between items-center">
             <span>Priority</span>
-            <Priority selected={priority} setSelected={setPriority} />
+            <Priority priority={currentSubTask.priority} setPriority={(value)=>{setCurrentSubTask(prev=>({   
+                  ...prev,priority:value
+      }))}} />
           </div>
         </div>
       )}
 
-    
-      <div className="flex justify-end gap-3 pt-2">
+     
+      {/* <div className="flex justify-end pt-2">
         <button
-          className="text-xs px-3 py-1 rounded bg-gray-200 hover:bg-gray-300"
-          onClick={onClose}
+          onClick={handleSave}
+          className="bg-blue-300 px-4 py-1 rounded-md hover:bg-blue-400"
         >
-          Cancel
+          Save Subtask
         </button>
-        <button
-          className="text-xs px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
-          onClick={handleSubmit}
-        >
-          Add Subtask
-        </button>
-      </div>
-    </div>
-    </>
+      </div> */}
+
+     
+   </div>
   );
 };
 
 export default SubTaskForm;
+

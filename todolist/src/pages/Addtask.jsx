@@ -4,11 +4,14 @@ import AddTaskFormUI from "../components/viewTaskUI/formView/AddTaskForm";
 import { addTask, updateTask } from "../hook/TaskCrud";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import SubTaskForm from "../components/viewTaskUI/taskUi/SubTaskForm";
 
 const AddTaskForm = ({ projectId, onTaskAdded, initialData }) => {
   const navigate=useNavigate()
   const [addTitle, setAddTitle] = useState("");
   const [addDescription, setAddDescription] = useState("");
+  const [subTasks, setSubTasks] = useState([]);
+
 
 
   const [priority, setPriority] = useState("none");
@@ -68,7 +71,7 @@ const [showPriority, setShowPriority] = useState(false)
     const taskData = {
       title: addTitle,
       description: addDescription,
-      subTasks:[],
+      subTasks,
       completed: false,
       priority,
       projectId: selectedProjectId || projectId,
@@ -140,6 +143,10 @@ const [showPriority, setShowPriority] = useState(false)
     
       
     />
+    <SubTaskForm subTasks={subTasks} setSubTask={setSubTasks}
+                           />
+
+  
 
      </>
   );

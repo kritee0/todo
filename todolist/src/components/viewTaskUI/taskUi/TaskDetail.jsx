@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { LiaTasksSolid } from "react-icons/lia";
 import { MdOutlineModeEditOutline, MdDelete } from "react-icons/md";
 import Popup from "../../../common/Popup";
@@ -14,8 +14,27 @@ const TaskDetail = ({
 }) => { 
 const[addSubTask,setAddSubTask]=useState(false)
 const[subTasks,setSubTasks]=useState([])
+
 const task = tasks.find((t) => t.id === openDetails);
 if (!task) return null; 
+
+// useEffect(() => {
+//   if (subTasks.length === 0) {
+//     setSubTasks([
+//       {
+//         id: Date.now(),
+//         title: "",
+//         date: "",
+//         remainderDate: "",
+//         priority: "none",
+//         completed: false,
+//         createdAt: new Date(),
+//       },
+//     ]);
+//   }
+// }, []);
+
+
   return (
     <>
     <Popup >
@@ -26,63 +45,101 @@ if (!task) return null;
     <div className="flex items-center gap-2">
       <LiaTasksSolid className="text-xl text-blue-600" />
       <h2 className="text-lg font-semibold text-blue-950">Task Details</h2>
-    </div>
+       </div>
+    <p className="flex justify-between">
+     
+      <span className="px-2 py-0.5 rounded text-xs bg-gray-200">
+        {task.priority || ""}
+      </span>
+    </p>
+   
   </div>
 
 
   <div className="space-y-2 text-sm text-gray-700">
+    <div className="flex  justify-between space-x-3.5">
 
     <p className="flex justify-between">
       <span className="font-medium">Title</span>
       <span>{task.title}</span>
     </p>
+<div className="flex flex-col">
+   <p className=" flex flex-col">
+      <span className="font-medium">TaskSchedule</span>
+      <span>{new Date(task.createdAt).toLocaleString()}</span>
+    </p>
+     <p className="flex flex-col">
+      <span className="font-medium">DueDate</span>
+      <span>{new Date(task.date).toLocaleString()}</span>
+    </p>
+
+    <p className="flex flex-col">
+      <span className="font-medium">Reminder</span>
+      <span>
+        {task.remainderDate
+          ? new Date(task.remainderDate).toLocaleString()
+          : ""}
+      </span>
+    </p>
+   
+
+   
+    </div>
+     
+   
+
+
+    </div>
 
     <p className="flex justify-between">
       <span className="font-medium">Description</span>
       <span>{task.description || "No description"}</span>
     </p>
-
-    <p className="flex justify-between">
-      <span className="font-medium">Priority</span>
-      <span className="px-2 py-0.5 rounded text-xs bg-gray-200">
-        {task.priority || "None"}
-      </span>
-    </p>
-
-    <p className="flex justify-between">
+      <p className="flex justify-between">
       <span className="font-medium">Completed</span>
       <span className={`text-sm ${task.completed ? "text-green-600" : "text-red-500"}`}>
         {task.completed ? "Yes" : "No"}
       </span>
     </p>
 
-    <p className="flex justify-between">
-      <span className="font-medium">Deadline</span>
-      <span>{new Date(task.date).toLocaleString()}</span>
-    </p>
+ 
 
-    <p className="flex justify-between">
-      <span className="font-medium">Reminder</span>
-      <span>
-        {task.remainderDate
-          ? new Date(task.remainderDate).toLocaleString()
-          : "None"}
-      </span>
-    </p>
-
-    <p className="flex justify-between">
-      <span className="font-medium">Created</span>
-      <span>{new Date(task.createdAt).toLocaleString()}</span>
-    </p>
+   
+   
   </div>
+  {subTasks.length===0?"":  ( <div className="">
 
-<button onClick={()=>{setAddSubTask(true)}} className="text-blue-950 font-semibold">
+
+          <label  className=" text-md font-semibold text-blue-950 border-b-2 border-gray-200">SubTasks</label>
+     {subTasks.map((subitem)=>(
+      <div className="flex   justify-between bg-gray-200 rounded-md px-3 py-2 mt-4" >
+
+   
+      <div className="flex flex-col ">
+        {subitem.title}
+        {subitem.date}
+         {subitem.remainderDate}
+         {subitem.priority}
+         </div>
+         </div>
+
+        
+      
+
+
+    ))}
+    </div>)}
+ 
+
+<button onClick={()=>{setAddSubTask(prev=>!prev)}} className="text-blue-950 font-semibold">
   AddSubTask
 </button> 
 {addSubTask && (<div className=" ">
     <SubTaskForm
       onClose={()=>setAddSubTask(false)}
+ 
       subTasks= {subTasks} 
+      setAddSubTask={setAddSubTask}
       setSubTasks={setSubTasks}/>
   </div>)}
  

@@ -11,7 +11,7 @@ const Priority = ({ priority, setPriority }) => {
       <option value=""   className="outline-none">Select Priority</option>
       <option value="high" className="outline-none">High</option>
       <option value="medium" className="outline-none" >Medium</option>
-      <option value="low" className="outline-none">Low</option>
+      <option value="low" className="outline-none">Low</option>s
     
     </select>
   );
