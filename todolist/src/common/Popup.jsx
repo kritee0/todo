@@ -5,14 +5,14 @@ const Popup = ({ children, onClose }) => {
     <>
    
       <div
-        className=" fixed inset-0 bg-opacity-30 z-40"
+        className=" fixed  inset-0 bg-white/30 backdrop-blur-sm z-40 " 
         onClick={onClose}
       />
 
     
-      <div className="   fixed  inset-0 z-50 flex items-center justify-center">
+      <div className="   fixed  inset-0 z-80 flex items-center justify-center ">
         <div
-          className=" max-w-2xl  relative w-full  bg-white  p-6 rounded-lg shadow-2xl"
+          className=" max-w-2xl  relative w-full h-full  bg-white  p-6 rounded-lg shadow-2xl overflow-y-auto  overflow-x-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {children}

@@ -1,9 +1,10 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { LiaTasksSolid } from "react-icons/lia";
 import { MdOutlineModeEditOutline, MdDelete } from "react-icons/md";
 import Popup from "../../../common/Popup";
 import SubTaskForm from "./SubTaskForm";
-
+import AddTaskForm from "../../../pages/Addtask";
+import { updateTask } from "../../../hook/TaskCrud";
 
 const TaskDetail = ({
   onEdit,
@@ -11,165 +12,137 @@ const TaskDetail = ({
   openDetails,
   setOpenDetails,
   tasks,
-}) => { 
-const[addSubTask,setAddSubTask]=useState(false)
-const[subTasks,setSubTasks]=useState([])
+  editing,
+}) => {
+  const [taskData, setTaskData] = useState(null);
+  const [addSubTask, setAddSubTask] = useState(false);
+  const [editingSubTask, setEditingSubTask] = useState(null);
 
-const task = tasks.find((t) => t.id === openDetails);
-if (!task) return null; 
+  useEffect(() => {
+    const found = tasks.find((t) => t.id === openDetails);
+    if (found) setTaskData(found);
+  }, [tasks, openDetails]);
 
-// useEffect(() => {
-//   if (subTasks.length === 0) {
-//     setSubTasks([
-//       {
-//         id: Date.now(),
-//         title: "",
-//         date: "",
-//         remainderDate: "",
-//         priority: "none",
-//         completed: false,
-//         createdAt: new Date(),
-//       },
-//     ]);
-//   }
-// }, []);
+  if (!taskData) return null;
 
+ 
+  const handleSubTaskDelete = (subTaskId) => {
+    const newTask = taskData.subTasks.filter((sub) => sub.id !== subTaskId);
+    const updatedTask = { ...taskData, subTasks: newTask };
+    setTaskData(updatedTask);
+    updateTask(updatedTask);
+  };
+
+
+  const handleSubTaskEdit = (subId) => {
+    const item = taskData.subTasks.find((s) => s.id === subId);
+    setEditingSubTask(item); 
+  };
 
   return (
-    <>
-    <Popup >
-     <div className="bg-white w-full max-w-xl rounded-2xl p-6 space-y-4">
+    <Popup>
+      <div className="bg-white w-full max-w-xl rounded-2xl p-6 space-y-4">
+        <div className="flex justify-between border-b pb-3">
+          <div className="flex items-center gap-2">
+            <LiaTasksSolid className="text-xl text-blue-600" />
+            <h2 className="text-lg font-semibold text-blue-950">
+              Task Details
+            </h2>
+          </div>
+          <span className="text-xs bg-gray-200 px-2 py-0.5 rounded">
+            {taskData.priority}
+          </span>
+        </div>
 
+        <div className="flex justify-between">
+          <p className="flex gap-4">
+            <span className="font-medium">Title</span>
+            <span>{taskData.title}</span>
+          </p>
+          <div className="flex flex-col">
+            <p className="flex flex-col">
+              <span className="font-medium">TaskSchedule</span>
+              <span>{new Date(taskData.createdAt).toLocaleString()}</span>
+            </p>
+            <p className="flex flex-col">
+              <span className="font-medium">DueDate</span>
+              <span>{new Date(taskData.date).toLocaleString()}</span>
+            </p>
+            <p className="flex flex-col">
+              <span className="font-medium">Reminder</span>
+              <span>
+                {taskData.remainderDate
+                  ? new Date(taskData.remainderDate).toLocaleString()
+                  : ""}
+              </span>
+            </p>
+          </div>
+        </div>
 
-  <div className="flex items-center justify-between border-b pb-3">
-    <div className="flex items-center gap-2">
-      <LiaTasksSolid className="text-xl text-blue-600" />
-      <h2 className="text-lg font-semibold text-blue-950">Task Details</h2>
-       </div>
-    <p className="flex justify-between">
-     
-      <span className="px-2 py-0.5 rounded text-xs bg-gray-200">
-        {task.priority || ""}
-      </span>
-    </p>
-   
-  </div>
+        {taskData.subTasks?.length > 0 && (
+          <div>
+            <label className="font-semibold">SubTasks</label>
+            {taskData.subTasks.map((st) => (
+              <div key={st.id} className="bg-gray-200 rounded px-3 py-2 mt-2">
+                <div className="flex justify-between">
+                  <span>{st.title}</span>
+                  <div className="flex gap-3 ">
+                    <span>{st.priority}</span>
+                    <span>
+                      {st.date ? new Date(st.date).toLocaleDateString() : ""}
+                    </span>
+                    <span>
+                      {st.remainderDate
+                        ? new Date(st.remainderDate).toLocaleString()
+                        : ""}
+                    </span>
+                    <MdOutlineModeEditOutline
+                      onClick={() => handleSubTaskEdit(st.id)}
+                    />
+                    <MdDelete onClick={() => handleSubTaskDelete(st.id)} />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
+        <button
+          onClick={() => setAddSubTask(true)}
+          className="font-semibold text-blue-950"
+        >
+          Add Subtask
+        </button>
 
-  <div className="space-y-2 text-sm text-gray-700">
-    <div className="flex  justify-between space-x-3.5">
+        {addSubTask && (
+          <SubTaskForm
+            task={taskData}
+            setTaskData={setTaskData}
+            setAddSubTask={setAddSubTask}
+          />
+        )}
 
-    <p className="flex justify-between">
-      <span className="font-medium">Title</span>
-      <span>{task.title}</span>
-    </p>
-<div className="flex flex-col">
-   <p className=" flex flex-col">
-      <span className="font-medium">TaskSchedule</span>
-      <span>{new Date(task.createdAt).toLocaleString()}</span>
-    </p>
-     <p className="flex flex-col">
-      <span className="font-medium">DueDate</span>
-      <span>{new Date(task.date).toLocaleString()}</span>
-    </p>
+        {editingSubTask && (
+          <SubTaskForm
+            task={taskData}
+            editingSubTask={editingSubTask}     
+            setTaskData={setTaskData}           
+            setEditingSubTask={setEditingSubTask} 
+          />
+        )}
 
-    <p className="flex flex-col">
-      <span className="font-medium">Reminder</span>
-      <span>
-        {task.remainderDate
-          ? new Date(task.remainderDate).toLocaleString()
-          : ""}
-      </span>
-    </p>
-   
-
-   
-    </div>
-     
-   
-
-
-    </div>
-
-    <p className="flex justify-between">
-      <span className="font-medium">Description</span>
-      <span>{task.description || "No description"}</span>
-    </p>
-      <p className="flex justify-between">
-      <span className="font-medium">Completed</span>
-      <span className={`text-sm ${task.completed ? "text-green-600" : "text-red-500"}`}>
-        {task.completed ? "Yes" : "No"}
-      </span>
-    </p>
-
- 
-
-   
-   
-  </div>
-  {subTasks.length===0?"":  ( <div className="">
-
-
-          <label  className=" text-md font-semibold text-blue-950 border-b-2 border-gray-200">SubTasks</label>
-     {subTasks.map((subitem)=>(
-      <div className="flex   justify-between bg-gray-200 rounded-md px-3 py-2 mt-4" >
-
-   
-      <div className="flex flex-col ">
-        {subitem.title}
-        {subitem.date}
-         {subitem.remainderDate}
-         {subitem.priority}
-         </div>
-         </div>
-
-        
-      
-
-
-    ))}
-    </div>)}
- 
-
-<button onClick={()=>{setAddSubTask(prev=>!prev)}} className="text-blue-950 font-semibold">
-  AddSubTask
-</button> 
-{addSubTask && (<div className=" ">
-    <SubTaskForm
-      onClose={()=>setAddSubTask(false)}
- 
-      subTasks= {subTasks} 
-      setAddSubTask={setAddSubTask}
-      setSubTasks={setSubTasks}/>
-  </div>)}
- 
-
-  
-  <div className="flex justify-between items-center ">
-
-    <button
-      className="px-4 py-1.5 text-sm bg-gray-200 rounded hover:bg-gray-300"
-      onClick={() => setOpenDetails(null)}
-    >
-      Close
-    </button>
-
-    <div className="flex gap-3">
-      <button className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
-        <MdOutlineModeEditOutline onClick={() => onEdit(task)} />
-      </button>
-
-      <button className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-red-200">
-        <MdDelete onClick={() => onDelete(task.id)} />
-      </button>
-    </div>
-  </div>
-
-</div>
-
-      </Popup>
-      
-    </>
+        <div className="flex justify-between pt-3">
+          <button onClick={() => setOpenDetails(null)}>Close</button>
+          <div className="flex gap-2">
+            <MdOutlineModeEditOutline onClick={() => onEdit(taskData)} />
+            <MdDelete onClick={() => onDelete(taskData.id)} />
+          </div>
+        </div>
+      </div>
+      {editing && <AddTaskForm  />}
+    </Popup>
   );
 };
+
 export default TaskDetail;
+
