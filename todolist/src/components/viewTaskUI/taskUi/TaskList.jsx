@@ -8,14 +8,14 @@ const TaskList = ({
   tasks,
   filter,
   setFilter,
-  onDelete,
+  onrequestDelete,
   onToggle,
   onEdit,
 }) => {
   const [openDetails, setOpenDetails] = useState(null);
   const { selectedPriority, setSelectedPriority, sortedTasks } =
     usePriority(tasks);
-    const[value,setValue]=useState
+  
 
   // Filter tasks based on filter state
   const filteredTasks = tasks.filter((task) => {
@@ -83,7 +83,7 @@ const TaskList = ({
               />
               <MdDelete
                 className="cursor-pointer"
-                onClick={() => onDelete(task.id)}
+                onClick={() => onrequestDelete(task)}
               />
               <p className="text-md text-red">{task.priority}</p>
             </div>
@@ -95,7 +95,7 @@ const TaskList = ({
                 tasks={tasks}
                 setTasks={() => {}}
                 onEdit={onEdit}
-                onDelete={onDelete}
+                // onDelete={onDelete}
               />
             )}
           </div>

@@ -4,7 +4,7 @@ import { addTask, updateTask } from "../hook/TaskCrud";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const AddTaskForm = ({ projectId, initialData, onTaskAdded, onTaskSaved }) => {
+const AddTaskForm = ({ projectId, initialData, onTaskAdded, onTaskSaved, ref }) => {
   const navigate = useNavigate();
 
   const [addTitle, setAddTitle] = useState("");
@@ -96,6 +96,7 @@ const AddTaskForm = ({ projectId, initialData, onTaskAdded, onTaskSaved }) => {
 
   return (
     <AddTaskFormUI
+    ref={ref}
       addTitle={addTitle}
       setAddTitle={setAddTitle}
       addDescription={addDescription}

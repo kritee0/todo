@@ -11,7 +11,7 @@ const AddTaskFormUI = ({
   setAddTitle,
   addDescription,
   setAddDescription,
-  
+  ref,
   priority,
   setPriority,
   date,
@@ -43,7 +43,7 @@ const AddTaskFormUI = ({
     );
 
   return (
-    <div className="max-w-3xl mx-auto bg-white shadow-lg border-2 border-gray-200 rounded-2xl p-6 space-y-4">
+    <div ref={ref}  className="max-w-3xl mx-auto bg-white shadow-lg border-2 border-gray-200 rounded-2xl p-6 space-y-4">
 
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-white">

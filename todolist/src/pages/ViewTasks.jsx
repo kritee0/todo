@@ -1,16 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getTasks, updateTask, deleteTask } from "../hook/TaskCrud";
 import AddTaskForm from "./Addtask";
 import { initDB } from "../database/db";
 import TaskList from "../components/viewTaskUI/taskUi/TaskList";
+import Model from "../common/model";
 
 const ViewTasks = () => {
+  const ref=useRef(null)
   const [tasks, setTasks] = useState([]);
   const [editingTask, setEditingTask] = useState(null);
   const [filter, setFilter] = useState("all");
-  const[showConform,setShowConform]=useState()
-  const[taskDelete,setTaskDelete]=useState()
+  const[showConform,setShowConform]=useState(false)
+  const[taskDelete,setTaskDelete]=useState(null)
 
+  useEffect(() => {
+      console.log(ref.current)
+
+    if(ref?.current){
+      console.log(ref.current)
+      
+      ref.current.scrollIntoView({ 
+        block: "start"
+      })
+    }
+  }, [editingTask])
   
   useEffect(() => {
     const fetchData = async () => {
@@ -35,6 +48,12 @@ const ViewTasks = () => {
   };
 
 
+  const onrequestDelete=(task)=>{
+    setTaskDelete(task)
+    setShowConform(true)
+
+  }
+
   const handleDelete = async (id) => {
     await deleteTask(id);
     setTasks((prev) => prev.filter((t) => t.id !== id));
@@ -48,6 +67,9 @@ const ViewTasks = () => {
     setEditingTask(null);
   };
 
+
+
+
   return (
     <>
       
@@ -56,14 +78,37 @@ const ViewTasks = () => {
         filter={filter}
         setFilter={setFilter}
         onToggle={handleToggle}
-        onDelete={handleDelete}
+        onrequestDelete={onrequestDelete}
         onEdit={setEditingTask}
         editingTask={editingTask}
-      />
 
+      />
+{showConform &&  taskDelete &&(
+  <Model
+   message={`Are you sure you want to delete "${taskDelete.title}"?`}
+   onConform={async()=>{
+     await handleDelete(taskDelete.id)
+     setShowConform(false)
+     setTaskDelete(null)
+     console.log(setShowConform)
+
+
+   }}
+   onCancel={()=>{
+    setShowConform(false)
+    setTaskDelete(null)
+
+
+   }}>
+    
+
+  </Model>
+
+)}
   
       {editingTask && (
         <AddTaskForm
+          ref={ref}
           key={editingTask.id} 
           initialData={editingTask}
           onTaskSaved={handleEditSave}
