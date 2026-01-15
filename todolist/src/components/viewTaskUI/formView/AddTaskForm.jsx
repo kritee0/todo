@@ -58,7 +58,6 @@ const AddTaskFormUI = ({
         />
       </div>
 
-  
       <input
         type="text"
         placeholder="Task title"
@@ -73,12 +72,7 @@ const AddTaskFormUI = ({
         value={addDescription}
         onChange={(e) => setAddDescription(e.target.value)}
         className="outline-none border-b-2 border-gray-300 w-full p-2"
-      />
-
-
-     
-
-   
+      /> 
       <div className="flex justify-between items-center mt-4 flex-wrap gap-2">
         <div className="flex space-x-2 flex-wrap gap-2">
           <TaskButton

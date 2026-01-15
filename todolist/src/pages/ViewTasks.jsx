@@ -4,81 +4,69 @@ import AddTaskForm from "./Addtask";
 import { initDB } from "../database/db";
 import TaskList from "../components/viewTaskUI/taskUi/TaskList";
 
-
 const ViewTasks = () => {
   const [tasks, setTasks] = useState([]);
   const [editingTask, setEditingTask] = useState(null);
-  const [filter, setFilter] = useState("all")
-  const filteredTasks = tasks.filter((task) => {
-    if (filter === "completed") return task.completed === true;
-    if (filter === "pending") return task.completed === false;
-    return true;
-  });
+  const [filter, setFilter] = useState("all");
+  const[showConform,setShowConform]=useState()
+  const[taskDelete,setTaskDelete]=useState()
 
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         await initDB();
         const allTasks = await getTasks();
-        console.log(allTasks);
-
-        //setTasks(allTasks.filter(task => task.projectId === projectId));
         setTasks(allTasks);
       } catch (error) {
-        console.log("Error fetching tasks:", error);
+        console.error("Error fetching tasks:", error);
       }
     };
     fetchData();
   }, []);
 
-  const handleToggle = async (todo) => {
-    const updated = { ...todo, completed: !todo.completed };
-    await updateTask(updated);
+
+  const handleToggle = async (task) => {
+    const updatedTask = { ...task, completed: !task.completed };
+    await updateTask(updatedTask);
     setTasks((prev) =>
-      prev.map((task) => (task.id === todo.id ? updated : task))
+      prev.map((t) => (t.id === task.id ? updatedTask : t))
     );
   };
 
+
   const handleDelete = async (id) => {
     await deleteTask(id);
-    setTasks((prev) => prev.filter((task) => task.id !== id));
+    setTasks((prev) => prev.filter((t) => t.id !== id));
   };
 
-  const handleEditSave = async (id, newData) => {//takes tow argument  
-    const updatedTask = { id, ...newData };// this is new update task
-    await updateTask(updatedTask);
+ 
+  const handleEditSave = (updatedTask) => {
     setTasks((prev) =>
-      prev.map((task) => (task.id === id ? updatedTask : task))
+      prev.map((t) => (t.id === updatedTask.id ? updatedTask : t))
     );
     setEditingTask(null);
   };
 
   return (
     <>
-    <TaskList
-    
-    tasks={filteredTasks}
-    
-    filter={filter}
-    setFilter={setFilter}
-    // openDetails={openDetails}
-    // setOpenDetails={setOpenDetails}
-    onToggle={handleToggle}
-    onDelete={handleDelete}
-    onEdit={setEditingTask}
-    editingTask={editingTask}
-    
+      
+      <TaskList
+        tasks={tasks}
+        filter={filter}
+        setFilter={setFilter}
+        onToggle={handleToggle}
+        onDelete={handleDelete}
+        onEdit={setEditingTask}
+        editingTask={editingTask}
+      />
 
-
-
-
-
-    />
+  
       {editingTask && (
         <AddTaskForm
-          //  projectId={projectId}
+          key={editingTask.id} 
           initialData={editingTask}
-          onTaskAdded={(data) => handleEditSave(editingTask.id, data)}
+          onTaskSaved={handleEditSave}
         />
       )}
     </>

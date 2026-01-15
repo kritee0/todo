@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {  useNavigate,useParams  } from "react-router-dom";
 import { getProjectById } from "../hook/ProjectCrud";
 import { getTaskByProjectId, updateTask, deleteTask } from "../hook/TaskCrud";
 import { initDB } from "../database/db";
 import AddTaskForm from "./Addtask";
 import TaskList from "../components/viewTaskUI/taskUi/TaskList";
-
+import { IoIosArrowBack } from "react-icons/io";
 const Taskpages = () => {
+  const navigate = useNavigate(); 
   const { projectId } = useParams();
   const numericProjectId = Number(projectId);
 
@@ -67,8 +68,16 @@ const Taskpages = () => {
 
   return (
     <div className="max-w-5xl mx-auto mt-6">
-      <h2 className="font-bold text-2xl text-blue-900 mb-4">{project?.name}</h2>
-
+     
+      <div className=" flex justify-between">
+      {/* <h2 className="font-bold text-2xl text-black mb-4">Project: {project?.name}</h2> */}
+      
+      <div className=" flex gap-1 items-center">
+        <IoIosArrowBack size={24} onClick={()=>navigate("/projects")} className="cursor-pointer" />
+        {/* <span className="font-semibold">Back</span> */}
+        
+        
+        </div>
 
       <AddTaskForm
         projectId={numericProjectId}
@@ -84,7 +93,7 @@ const Taskpages = () => {
           })
         }
       />
-
+</div>
 
       {tasks.length > 0 ? (
         <TaskList

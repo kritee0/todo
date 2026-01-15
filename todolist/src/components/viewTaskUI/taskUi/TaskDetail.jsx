@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { LiaTasksSolid } from "react-icons/lia";
 import { MdOutlineModeEditOutline, MdDelete } from "react-icons/md";
+import { RxCross2 } from "react-icons/rx";
 import Popup from "../../../common/Popup";
 import SubTaskForm from "./SubTaskForm";
 import AddTaskForm from "../../../pages/Addtask";
@@ -41,8 +42,14 @@ const TaskDetail = ({
 
   return (
     <Popup>
+      <div className="flex cursor-pointer justify-end ">
+          <button onClick={() => setOpenDetails(null)}><RxCross2 /></button>
+         
+        </div>
       <div className="bg-white w-full max-w-xl rounded-2xl p-6 space-y-4">
+         
         <div className="flex justify-between border-b pb-3">
+          
           <div className="flex items-center gap-2">
             <LiaTasksSolid className="text-xl text-blue-600" />
             <h2 className="text-lg font-semibold text-blue-950">
@@ -131,15 +138,15 @@ const TaskDetail = ({
           />
         )}
 
-        <div className="flex justify-between pt-3">
-          <button onClick={() => setOpenDetails(null)}>Close</button>
-          <div className="flex gap-2">
-            <MdOutlineModeEditOutline onClick={() => onEdit(taskData)} />
-            <MdDelete onClick={() => onDelete(taskData.id)} />
-          </div>
-        </div>
+       
       </div>
-      {editing && <AddTaskForm  />}
+       {/* {editingTask && (
+        <AddTaskForm
+          //  projectId={projectId}
+          initialData={editingTask}
+          onTaskAdded={(data) => handleEditSave(editingTask.id, data)}
+        />
+      )} */}
     </Popup>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getProject } from '../hook/ProjectCrud'
 import { getTasks } from '../hook/TaskCrud'
+import TaskChart from '../components/chart/TaskChart'
 import "../css/Dashboard.css"
 import { GoGraph } from "react-icons/go";
 
@@ -53,6 +54,7 @@ const Dashboard = () => {
         <p className="stat-item">Active Tasks: <span className="stat-value active">{activeTasks}</span></p>
         </div>
       </section>
+      <TaskChart tasks={tasks}/> 
     </div>
   )
 }
