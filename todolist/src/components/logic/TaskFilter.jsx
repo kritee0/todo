@@ -1,25 +1,43 @@
 import React from "react";
-import TaskButton from "../../pages/TaskButton.jsx"
-import Priority from "../logic/Priority.jsx"
+import TaskButton from "../../pages/TaskButton.jsx";
+import Priority from "../logic/Priority.jsx";
+import { Tally4, CircleDashed, ListCheck } from "lucide-react";
+import { StepForward, ChartSpline  } from 'lucide-react';
 
 const TaskFilter = ({ filter, setFilter, selectedPriority, setSelectedPriority }) => {
   return (
     <div className="flex justify-between mb-4">
-      <div className="flex space-x-4">
+      <div className="flex space-x-6">
         <TaskButton
           text="All"
+          icon={<Tally4 />}
+         
           onClick={() => setFilter("all")}
-          className={filter === "all" ? "bg-blue-600 text-white" : ""}
+          primary={filter === "all"}
         />
         <TaskButton
           text="Pending"
+          icon={<CircleDashed />}
           onClick={() => setFilter("pending")}
-          className={filter === "pending" ? "bg-blue-600 text-white" : ""}
+          primary={filter === "pending"}
         />
         <TaskButton
           text="Completed"
+          icon={<ListCheck />}
           onClick={() => setFilter("completed")}
-          className={filter === "completed" ? "bg-blue-600 text-white" : ""}
+          primary={filter === "completed"}
+        />
+        <TaskButton
+          text="Ongoing"
+          icon={<ChartSpline/>}
+          onClick={() => setFilter("ongoing")}
+          primary={filter === "ongoing"}
+        />
+        <TaskButton
+          text="Abondant"
+          icon={<StepForward/> }
+          onClick={() => setFilter("abondant")}
+          primary={filter === "abondant"}
         />
       </div>
 
@@ -32,4 +50,3 @@ const TaskFilter = ({ filter, setFilter, selectedPriority, setSelectedPriority }
 };
 
 export default TaskFilter;
-

@@ -21,6 +21,15 @@ const Dashboard = () => {
   const completedTasks = tasks.filter(t => t.completed).length
   const activeTasks = tasks.filter(t => !t.completed).length
   const totalTasks = tasks.length
+  const today=new Date()
+  const overDueTasks=tasks.filter(task=>{
+    const taskDeadline=new Date(task.date)
+   
+    return taskDeadline>today && !task.completed
+  
+  
+  })
+   
 
   return (
     <div className="dashboard">
@@ -53,9 +62,17 @@ const Dashboard = () => {
         <div className='item-3'>
         <p className="stat-item">Active Tasks: <span className="stat-value active">{activeTasks}</span></p>
         </div>
+          <div className='item-3'>
+        <p className="stat-item">Overdue Tasks: <span className="stat-value active">{overDueTasks}</span></p>
+        </div>
       </section>
-      <TaskChart tasks={tasks}/> 
-    </div>
+      <span className='font-bold  text-4xl items-center'> Chart</span>
+     <div className='flex justify-center'>
+      
+      <TaskChart tasks={tasks}  className="w-full h-full"/> 
+      </div>
+      </div>
+  
   )
 }
 

@@ -4,7 +4,7 @@ import { MdOutlineModeEditOutline, MdDelete } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import Popup from "../../../common/Popup";
 import SubTaskForm from "./SubTaskForm";
-import AddTaskForm from "../../../pages/Addtask";
+import Status from "../../logic/Status";
 import { updateTask } from "../../../hook/TaskCrud";
 
 const TaskDetail = ({
@@ -18,6 +18,7 @@ const TaskDetail = ({
   const [taskData, setTaskData] = useState(null);
   const [addSubTask, setAddSubTask] = useState(false);
   const [editingSubTask, setEditingSubTask] = useState(null);
+  const[openStatus,setOpenStatus]=useState(false)
 
   useEffect(() => {
     const found = tasks.find((t) => t.id === openDetails);
@@ -55,10 +56,12 @@ const TaskDetail = ({
             <h2 className="text-lg font-semibold text-blue-950">
               Task Details
             </h2>
+            
           </div>
-          <span className="text-xs bg-gray-200 px-2 py-0.5 rounded">
+          <Status openStatus={openStatus} setOpenStatus={setOpenStatus}/>
+          {/* <span className="text-xs bg-gray-200 px-2 py-0.5 rounded">
             {taskData.priority}
-          </span>
+          </span> */}
         </div>
 
         <div className="flex justify-between">

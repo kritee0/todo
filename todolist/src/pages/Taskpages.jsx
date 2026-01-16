@@ -67,7 +67,7 @@ const Taskpages = () => {
   });
 
   return (
-    <div className="max-w-5xl mx-auto mt-6">
+    <div className="max-w-5xl mx-auto">
      
       <div className=" flex justify-between">
       {/* <h2 className="font-bold text-2xl text-black mb-4">Project: {project?.name}</h2> */}
@@ -105,7 +105,7 @@ const Taskpages = () => {
           onEdit={setEditingTask}
         />
       ) : (
-        <p className="text-gray-500 mt-4">No tasks added for this project.</p>
+        <p className="text-gray-500 ">No tasks added for this project.</p>
       )}
     </div>
   );

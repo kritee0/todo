@@ -3,6 +3,7 @@ import { MdOutlineModeEditOutline, MdDelete } from "react-icons/md";
 import TaskDetail from "./TaskDetail.jsx";
 import TaskFilter from "../../logic/TaskFilter.jsx";
 import { usePriority } from "../../../hook/usePriority.js";
+import TaskButton from "../../../pages/TaskButton.jsx";
 
 const TaskList = ({
   tasks,
@@ -17,19 +18,21 @@ const TaskList = ({
     usePriority(tasks);
   
 
-  // Filter tasks based on filter state
-  const filteredTasks = tasks.filter((task) => {
-    if (filter === "completed") return task.completed;
-    if (filter === "pending") return !task.completed;
-    return true;
-  });
 
-  const finalTasks = sortedTasks(filteredTasks);
+ const finalTasks = sortedTasks().filter((task) => {
+  if (filter === "completed") return task.completed;
+  if (filter === "pending") return !task.completed;
+  if(filter==="ongoing") return !task.completed;
+  if(filter==="Abondant") return !task.Skip;
+  return true;
+});
+
+  // const finalTasks = sortedTasks(filteredTasks);
 
   return (
     <div>
-      <div className="flex justify-between">
-        <h2 className="text-2xl font-bold mb-4">My Tasks</h2>
+      <div className="flex  flex-col justify-between">
+        <h2 className="text-2xl font-bold text-indigo-500 mb-4">My Tasks</h2>
       </div>
 
       <TaskFilter
@@ -38,12 +41,17 @@ const TaskList = ({
         selectedPriority={selectedPriority}
         setSelectedPriority={setSelectedPriority}
       />
+       {/* <TaskButton text="Add Task" primary onClick={() => setShowForm(true)} /> */}
 
-      <div className="max-w-4xl flex flex-col space-y-4">
+      <div className="max-w-full  flex flex-col   h-auto    space-y-4 ">
+        
         {finalTasks.map((task) => (
           <div
             key={task.id}
-            className="flex justify-between items-center border-2 border-gray-200 bg-white shadow-md h-24 p-4 rounded-md cursor-pointer"
+            onClick={() =>
+                    setOpenDetails(openDetails === task.id ? null : task.id)
+                  }
+            className="flex  justify-between items-center bg-opacity/50  border-gray-200 shadow-md h-auto p-4 rounded-md cursor-pointer"
           >
             <div className="flex items-center space-x-4">
               <input
@@ -62,17 +70,15 @@ const TaskList = ({
                 >
                   {task.title}
                 </p>
-                <p className="text-sm text-gray-500">
+                {/* <p className="text-sm text-gray-500">
                   Task Schedule: {new Date(task.createdAt).toLocaleString()}
-                </p>
-                <p
-                  className="text-sm text-blue-500 underline cursor-pointer"
-                  onClick={() =>
-                    setOpenDetails(openDetails === task.id ? null : task.id)
-                  }
+                </p> */}
+                {/* <p
+                  className="text-sm text-blue-400 underline cursor-pointer"
+                  
                 >
                   View Task Details
-                </p>
+                </p> */}
               </div>
             </div>
 
