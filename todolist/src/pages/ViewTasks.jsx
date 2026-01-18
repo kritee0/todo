@@ -4,14 +4,23 @@ import AddTaskForm from "./Addtask";
 import { initDB } from "../database/db";
 import TaskList from "../components/viewTaskUI/taskUi/TaskList";
 import Model from "../common/model";
+import { useLocation } from "react-router-dom";
 
 const ViewTasks = () => {
   const ref=useRef(null)
+  const location =useLocation();
   const [tasks, setTasks] = useState([]);
   const [editingTask, setEditingTask] = useState(null);
   const [filter, setFilter] = useState("all");
   const[showConform,setShowConform]=useState(false)
   const[taskDelete,setTaskDelete]=useState(null)
+
+  useEffect(()=>{
+    const params= new URLSearchParams(location.search)
+    const urlFilter= params.get("filter")||"pending"
+    setFilter(urlFilter)
+
+  },[location.search])
 
   useEffect(() => {
       console.log(ref.current)
@@ -40,7 +49,12 @@ const ViewTasks = () => {
 
 
   const handleToggle = async (task) => {
-    const updatedTask = { ...task, completed: !task.completed };
+   const completed = !task.completed;
+  const status = completed ? "completed" : task.status; 
+
+  const updatedTask = { ...task, completed, status };
+
+  await updateTask(updatedTask);
     await updateTask(updatedTask);
     setTasks((prev) =>
       prev.map((t) => (t.id === task.id ? updatedTask : t))
@@ -67,6 +81,13 @@ const ViewTasks = () => {
     setEditingTask(null);
   };
 
+const handleStatusChangeInParent = (updatedTask) => {
+  setTasks(prev =>
+    prev.map(t => (t.id === updatedTask.id ? updatedTask : t))
+  )
+}
+
+
 
 
 
@@ -81,6 +102,7 @@ const ViewTasks = () => {
         onrequestDelete={onrequestDelete}
         onEdit={setEditingTask}
         editingTask={editingTask}
+       onStatusChangeInParent={handleStatusChangeInParent}
 
       />
 {showConform &&  taskDelete &&(

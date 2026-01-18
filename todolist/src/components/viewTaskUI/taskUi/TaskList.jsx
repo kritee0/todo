@@ -12,19 +12,25 @@ const TaskList = ({
   onrequestDelete,
   onToggle,
   onEdit,
+  setTasksStatue,
+    onStatusChangeInParent
+
 }) => {
   const [openDetails, setOpenDetails] = useState(null);
+
   const { selectedPriority, setSelectedPriority, sortedTasks } =
     usePriority(tasks);
   
 
 
  const finalTasks = sortedTasks().filter((task) => {
-  if (filter === "completed") return task.completed;
-  if (filter === "pending") return !task.completed;
-  if(filter==="ongoing") return !task.completed;
-  if(filter==="Abondant") return !task.Skip;
+  // if (filter === "completed") return task.completed;
+  // if (filter === "pending") return !task.completed;
+  // if(filter==="ongoing") return !task.completed;
+  // if(filter==="Abondant") return !task.Skip;
+  if (filter === "all")
   return true;
+  return task.status === filter;
 });
 
   // const finalTasks = sortedTasks(filteredTasks);
@@ -48,9 +54,7 @@ const TaskList = ({
         {finalTasks.map((task) => (
           <div
             key={task.id}
-            onClick={() =>
-                    setOpenDetails(openDetails === task.id ? null : task.id)
-                  }
+          
             className="flex  justify-between items-center bg-opacity/50  border-gray-200 shadow-md h-auto p-4 rounded-md cursor-pointer"
           >
             <div className="flex items-center space-x-4">
@@ -62,7 +66,9 @@ const TaskList = ({
                   onToggle(task);
                 }}
               />
-              <div className="flex flex-col justify-end">
+              <div className="flex flex-col justify-end "   onClick={() =>
+                    setOpenDetails(openDetails === task.id ? null : task.id)
+                  }>
                 <p
                   className={
                     task.completed ? "line-through text-gray-400" : "font-semibold"
@@ -83,6 +89,9 @@ const TaskList = ({
             </div>
 
             <div className="flex items-center space-x-3">
+              <div className="bg-red-200 px-2 rounded-md">
+                   <p className="text-md text-black">{task.priority}</p>
+                   </div>
               <MdOutlineModeEditOutline
                 className="cursor-pointer"
                 onClick={() => onEdit(task)}
@@ -91,7 +100,7 @@ const TaskList = ({
                 className="cursor-pointer"
                 onClick={() => onrequestDelete(task)}
               />
-              <p className="text-md text-red">{task.priority}</p>
+         
             </div>
 
             {openDetails === task.id && (
@@ -99,8 +108,9 @@ const TaskList = ({
                 openDetails={openDetails}
                 setOpenDetails={setOpenDetails}
                 tasks={tasks}
-                setTasks={() => {}}
+                setTasks={setTasksStatue}
                 onEdit={onEdit}
+                  onStatusChangeInParent={onStatusChangeInParent}
                 // onDelete={onDelete}
               />
             )}

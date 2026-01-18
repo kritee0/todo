@@ -6,19 +6,26 @@ import Popup from "../../../common/Popup";
 import SubTaskForm from "./SubTaskForm";
 import Status from "../../logic/Status";
 import { updateTask } from "../../../hook/TaskCrud";
+import { updateProject } from "../../../hook/ProjectCrud";
+import Priority from "../../logic/Priority";
+import { usePriority } from "../../../hook/usePriority";
 
 const TaskDetail = ({
-  onEdit,
-  onDelete,
+  // onEdit,
+  // onDelete,
   openDetails,
   setOpenDetails,
   tasks,
-  editing,
+  // editing,
+  onStatusChangeInParent 
 }) => {
   const [taskData, setTaskData] = useState(null);
   const [addSubTask, setAddSubTask] = useState(false);
   const [editingSubTask, setEditingSubTask] = useState(null);
   const[openStatus,setOpenStatus]=useState(false)
+ const { selectedPriority, setSelectedPriority, sortedTasks} =
+     usePriority(taskData?.subTasks||[]);
+   
 
   useEffect(() => {
     const found = tasks.find((t) => t.id === openDetails);
@@ -26,6 +33,7 @@ const TaskDetail = ({
   }, [tasks, openDetails]);
 
   if (!taskData) return null;
+
 
  
   const handleSubTaskDelete = (subTaskId) => {
@@ -40,6 +48,22 @@ const TaskDetail = ({
     const item = taskData.subTasks.find((s) => s.id === subId);
     setEditingSubTask(item); 
   };
+  const handleStatusChange = async (newStatus) => {
+    const completed = newStatus === "completed"; 
+  const updatedTask = { ...taskData, status: newStatus,completed } 
+  
+
+  setTaskData(updatedTask)
+  
+
+  onStatusChangeInParent(updatedTask)
+  
+
+  await updateTask(updatedTask)
+  
+
+  setOpenStatus(false)
+}
 
   return (
     <Popup>
@@ -57,8 +81,8 @@ const TaskDetail = ({
               Task Details
             </h2>
             
-          </div>
-          <Status openStatus={openStatus} setOpenStatus={setOpenStatus}/>
+          </div>  
+          <Status openStatus={openStatus} setOpenStatus={setOpenStatus} onStatusChange={handleStatusChange}  currentStatus={taskData.status} />
           {/* <span className="text-xs bg-gray-200 px-2 py-0.5 rounded">
             {taskData.priority}
           </span> */}
@@ -91,13 +115,19 @@ const TaskDetail = ({
 
         {taskData.subTasks?.length > 0 && (
           <div>
+            <div className="flex justify-between">
             <label className="font-semibold">SubTasks</label>
-            {taskData.subTasks.map((st) => (
+            <Priority priority={selectedPriority} setPriority={setSelectedPriority} />
+            </div>
+
+            {sortedTasks().map((st) => (
               <div key={st.id} className="bg-gray-200 rounded px-3 py-2 mt-2">
                 <div className="flex justify-between">
                   <span>{st.title}</span>
-                  <div className="flex gap-3 ">
-                    <span>{st.priority}</span>
+                  <div className="flex gap-3  ">
+                    <div className="bg-red-100 rounded-2xl px-3">
+                    <span className="text-black font-semibold">{st.priority}</span>
+                    </div>
                     <span>
                       {st.date ? new Date(st.date).toLocaleDateString() : ""}
                     </span>

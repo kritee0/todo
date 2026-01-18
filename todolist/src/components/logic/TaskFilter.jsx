@@ -34,16 +34,17 @@ const TaskFilter = ({ filter, setFilter, selectedPriority, setSelectedPriority }
           primary={filter === "ongoing"}
         />
         <TaskButton
-          text="Abondant"
+          text="  Abundant"
           icon={<StepForward/> }
-          onClick={() => setFilter("abondant")}
-          primary={filter === "abondant"}
+          onClick={() => setFilter(" abundant")}
+          primary={filter === " abundant"}
         />
       </div>
 
       <Priority
         priority={selectedPriority}
         setPriority={setSelectedPriority}
+      
       />
     </div>
   );
