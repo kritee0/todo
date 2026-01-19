@@ -100,7 +100,7 @@ const ProjectUI = ({
   return (
     <div className="max-w-7xl">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-blue-700">My Projects</h2>
+        <h2 className="text-2xl font-bold text-violet-500">My Projects</h2>
         <TaskButton
           text={showForm ? "Cancel" : "Add Project"}
           primary
@@ -128,7 +128,9 @@ const ProjectUI = ({
       {projects.length === 0 ? (
         <p className="text-gray-500 italic">No projects yet. Add one above!</p>
       ) : (
+       
         <ul className="divide-y flex flex-col divide-gray-200 rounded-lg">
+          
           {projects.map((proj) => (
             <li
               key={proj.id}

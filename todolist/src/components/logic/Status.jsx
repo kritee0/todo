@@ -19,9 +19,9 @@ const Status = ({ openStatus, setOpenStatus,onStatusChange,currentStatus }) => {
       <div className=" max-w-xs h-auto z-10   bg-blue-950 px-2 border-2 border-gray-400 cursor-pointer  text-white  rounded-xl  mb-2 border-b-2 border-b-white">
         <div
           className=" relative text-bold text-lg flex  text-white items-center justify-center"
-          onClick={() => setOpenStatus((prev) => !prev)}
+         
         >
-          <RiFilter3Line />
+          <RiFilter3Line  onClick={() => setOpenStatus((prev) => !prev)}/>
           <span className="ml-2">{status || "Status"}</span>
 
           {/* <span  className="text-bold text-xl text-white" onClick={()=>setOpenStatus(prev=>!prev)}>status</span> */}

@@ -6,7 +6,7 @@ import Popup from "../../../common/Popup";
 import SubTaskForm from "./SubTaskForm";
 import Status from "../../logic/Status";
 import { updateTask } from "../../../hook/TaskCrud";
-import { updateProject } from "../../../hook/ProjectCrud";
+// import { updateProject } from "../../../hook/ProjectCrud";
 import Priority from "../../logic/Priority";
 import { usePriority } from "../../../hook/usePriority";
 
@@ -25,6 +25,8 @@ const TaskDetail = ({
   const[openStatus,setOpenStatus]=useState(false)
  const { selectedPriority, setSelectedPriority, sortedTasks} =
      usePriority(taskData?.subTasks||[]);
+    
+    const[openSubTasksId,setOpenSubTasksId]=useState(null)
    
 
   useEffect(() => {
@@ -63,6 +65,12 @@ const TaskDetail = ({
   
 
   setOpenStatus(false)
+}
+const  handleToggle=(id)=>{
+  
+  setOpenSubTasksId(prev => prev === id ? null : id);
+
+
 }
 
   return (
@@ -120,17 +128,30 @@ const TaskDetail = ({
             <Priority priority={selectedPriority} setPriority={setSelectedPriority} />
             </div>
 
-            {sortedTasks().map((st) => (
+            {sortedTasks().map((st,i) => (
               <div key={st.id} className="bg-gray-200 rounded px-3 py-2 mt-2">
-                <div className="flex justify-between">
-                  <span>{st.title}</span>
+                <div className="flex justify-between " onClick={()=>{handleToggle(st.id)}}>
+                  <div  className="group relative">
+                     <span>{st.title}</span>
+
+         <div className="absolute left-0 top-full mt-1
+    hidden group-hover:block
+    bg-gray-800 text-white text-xs
+    px-2 py-1 rounded shadow
+    whitespace-nowrap
+    z-20">     
+      <span className="">
+                {st.date ? new Date(st.date).toLocaleDateString() : ""}
+                    </span>
+                    </div>
+                 
+                  </div>
+                            
                   <div className="flex gap-3  ">
                     <div className="bg-red-100 rounded-2xl px-3">
                     <span className="text-black font-semibold">{st.priority}</span>
                     </div>
-                    <span>
-                      {st.date ? new Date(st.date).toLocaleDateString() : ""}
-                    </span>
+                  
                     <span>
                       {st.remainderDate
                         ? new Date(st.remainderDate).toLocaleString()
@@ -141,14 +162,34 @@ const TaskDetail = ({
                     />
                     <MdDelete onClick={() => handleSubTaskDelete(st.id)} />
                   </div>
+                  
+     
+  
+                     
+                  
                 </div>
+ 
+
+
+                        {openSubTasksId === st.id && (
+      <div className="p-2 bg-gray-100 mt-1 rounded">
+        <span>{st.description || "No description added"}</span>
+      </div>
+    )}
+       
+          
               </div>
+              
+              
+              
+              
             ))}
+       
           </div>
         )}
 
         <button
-          onClick={() => setAddSubTask(true)}
+          onClick={() => setAddSubTask(prev=>!prev)}
           className="font-semibold text-blue-950"
         >
           Add Subtask

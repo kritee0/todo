@@ -67,47 +67,64 @@ const Taskpages = () => {
   });
 
   return (
-    <div className="max-w-5xl mx-auto">
-     
-      <div className=" flex justify-between">
-      {/* <h2 className="font-bold text-2xl text-black mb-4">Project: {project?.name}</h2> */}
-      
-      <div className=" flex gap-1 items-center">
-        <IoIosArrowBack size={24} onClick={()=>navigate("/projects")} className="cursor-pointer" />
-        {/* <span className="font-semibold">Back</span> */}
-        
-        
-        </div>
+ <div className="max-w-5xl mx-auto px-4 py-6">
 
-      <AddTaskForm
-        projectId={numericProjectId}
-        initialData={editingTask}
-        onTaskAdded={(newTask) =>
-          setTasks((prev) => {
-       
-            if (editingTask) {
-              return prev.map((t) => (t.id === editingTask.id ? newTask : t));
-            }
-       
-            return [...prev, newTask];
-          })
-        }
-      />
+  
+  <div className="flex items-center justify-between mb-1 ">
+
+   
+    <div
+      onClick={() => navigate("/projects")}
+      className="flex items-center gap-1 text-gray-600 hover:text-violet-500 cursor-pointer transition"
+    >
+      <IoIosArrowBack size={18} />
+         <h2 className="text-xl font-semibold text-blue-950">
+   projectname:   {project?.name}
+    </h2>
+      {/* <span className="text-sm font-medium"></span> */}
+    
+    </div>
+
+  
+  </div>
+
+
+  <div className=" flex justify-end">
+    
+    <AddTaskForm
+      projectId={numericProjectId}
+      initialData={editingTask}
+      onTaskAdded={(newTask) =>
+        setTasks((prev) => {
+          if (editingTask) {
+            return prev.map((t) =>
+              t.id === editingTask.id ? newTask : t
+            );
+          }
+          return [...prev, newTask];
+        })
+      }
+    />
+    
+  </div>
+
+ 
+  {tasks.length > 0 ? (
+    <TaskList
+      tasks={filteredTasks}
+      filter={filter}
+      setFilter={setFilter}
+      onToggle={handleToggle}
+      onDelete={handleDelete}
+      onEdit={setEditingTask}
+    />
+  ) : (
+    <p className="text-gray-500 text-center">
+      No tasks added for this project.
+    </p>
+  )}
 </div>
 
-      {tasks.length > 0 ? (
-        <TaskList
-          tasks={filteredTasks}
-          filter={filter}
-          setFilter={setFilter}
-          onToggle={handleToggle}
-          onDelete={handleDelete}
-          onEdit={setEditingTask}
-        />
-      ) : (
-        <p className="text-gray-500 ">No tasks added for this project.</p>
-      )}
-    </div>
   );
 };
 

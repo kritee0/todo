@@ -16,6 +16,7 @@ import { initDB } from "./database/db";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import TaskDeatil from "./components/viewTaskUI/taskUi/TaskDetail";
+import kritee from "./common/kritee";
 
  import 'react-toastify/dist/ReactToastify.css';
 
@@ -36,6 +37,7 @@ const router = createBrowserRouter(
       <Route path="view/tasks" element={<ViewTasks />} />
         <Route path="view/tasks/:id" element={<TaskDeatil/>} />
       <Route path="/tasks/new" element={<AddTaskForm />} />
+       <Route path="/kritee/new" element={<kritee />} />
     </Route>
       </>
   )

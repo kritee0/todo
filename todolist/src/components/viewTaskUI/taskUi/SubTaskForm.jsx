@@ -8,6 +8,7 @@ const SubTaskForm = ({ task, setTaskData, setAddSubTask, editingSubTask, setEdit
   const [currentSubTask, setCurrentSubTask] = useState({
     title: "",
     date: "",
+    description:"",
     remainderDate: "",
     priority: "none",
     completed: false,
@@ -70,6 +71,18 @@ const SubTaskForm = ({ task, setTaskData, setAddSubTask, editingSubTask, setEdit
           <BsThreeDotsVertical />
         </button>
       </div>
+      <div className="flex gap-2 items-center">
+        <input
+          type="text"
+          placeholder="Add description"
+          value={currentSubTask.description}
+          onChange={(e) => setCurrentSubTask({ ...currentSubTask, description: e.target.value })}
+          onKeyDown={(e) => e.key === "Enter" && handleSave()}
+          className="w-full rounded-2xl bg-white px-3 py-2"
+        />
+        
+      </div>
+
 
       {showDetail && (
         <div className="flex flex-col space-y-2 text-sm">

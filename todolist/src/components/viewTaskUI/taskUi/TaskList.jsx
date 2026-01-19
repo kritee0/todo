@@ -89,8 +89,8 @@ const TaskList = ({
             </div>
 
             <div className="flex items-center space-x-3">
-              <div className="bg-red-200 px-2 rounded-md">
-                   <p className="text-md text-black">{task.priority}</p>
+              <div className="bg-blue-400 px-2 rounded-md">
+                   <p className="text-md text-white">{task.priority}</p>
                    </div>
               <MdOutlineModeEditOutline
                 className="cursor-pointer"
