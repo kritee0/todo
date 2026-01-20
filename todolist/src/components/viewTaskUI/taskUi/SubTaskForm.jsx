@@ -3,16 +3,9 @@ import Priority from "../../logic/Priority";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { updateTask } from "../../../hook/TaskCrud";
 
-const SubTaskForm = ({ task, setTaskData, setAddSubTask, editingSubTask, setEditingSubTask }) => {
+const SubTaskForm = ({ task, setTaskData, setAddSubTask, editingSubTask, setEditingSubTask,currentSubTask,setCurrentSubTask }) => {
   const [showDetail, setShowDetail] = useState(false);
-  const [currentSubTask, setCurrentSubTask] = useState({
-    title: "",
-    date: "",
-    description:"",
-    remainderDate: "",
-    priority: "none",
-    completed: false,
-  });
+ 
 
   useEffect(() => {
     if (editingSubTask) {

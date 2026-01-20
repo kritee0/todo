@@ -25,7 +25,7 @@ const ViewTasks = () => {
   useEffect(() => {
       console.log(ref.current)
 
-    if(ref?.current){
+    if(ref?.current){a
       console.log(ref.current)
       
       ref.current.scrollIntoView({ 

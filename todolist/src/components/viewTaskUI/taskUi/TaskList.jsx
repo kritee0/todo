@@ -42,6 +42,7 @@ const TaskList = ({
       </div>
 
       <TaskFilter
+      tasks={tasks}
         filter={filter}
         setFilter={setFilter}
         selectedPriority={selectedPriority}
