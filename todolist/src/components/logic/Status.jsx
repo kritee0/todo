@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { RiFilter3Line } from "react-icons/ri";
 
-const Status = ({ openStatus, setOpenStatus,onStatusChange,currentStatus }) => {
+const Status = ({ openStatus, setOpenStatus,onStatusChange,currentStatus,disableComplete }) => {
   const [status, setStatus] = useState(currentStatus|| "pending");
   const handleSelect = (value) => {
     setStatus(value);
@@ -36,9 +36,12 @@ const Status = ({ openStatus, setOpenStatus,onStatusChange,currentStatus }) => {
                 >
                   Pending
                 </li>
-                <li
-                  className=" hover:bg-black/20"
-                  onClick={() => handleSelect("completed")}
+                <li 
+                  className={`hover:bg-black/20" ${disableComplete?"cursor-not-allowed":"cursor-pointer"}`}
+                  onClick={() => {if(disableComplete)
+                    return;
+                  
+                  onStatusChange("completed")}}
                 >
                   Completed
                 </li>

@@ -3,13 +3,13 @@ import Priority from "../../logic/Priority";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { updateTask } from "../../../hook/TaskCrud";
 
-const SubTaskForm = ({ task, setTaskData, setAddSubTask, editingSubTask, setEditingSubTask,currentSubTask,setCurrentSubTask }) => {
+const SubTaskForm = ({ task, setTaskData, setAddSubTask, editingSubTask, setEditingSubTask,currentSubTask,setCurrentSubTask,ref}) => {
   const [showDetail, setShowDetail] = useState(false);
  
 
   useEffect(() => {
     if (editingSubTask) {
-      setCurrentSubTask(editingSubTask);
+      setCurrentSubTask((prev)=>({...prev,...editingSubTask}));
       setShowDetail(true);
     }
   }, [editingSubTask]);
@@ -48,14 +48,21 @@ const SubTaskForm = ({ task, setTaskData, setAddSubTask, editingSubTask, setEdit
     if (editingSubTask) setEditingSubTask(null); 
     setAddSubTask(false);
   };
+const now = new Date();
+const today = now.toISOString().slice(0,16); 
+
+const dueDate = task?.dueDate 
+    ? new Date(task.endDate).toISOString().slice(0,16) 
+    : null;
 
   return (
-    <div className="bg-gray-100 rounded-md px-3 py-2 space-y-3">
+    <div  ref={ref} className="bg-gray-100 rounded-md px-3 py-2 space-y-3">
       <div className="flex gap-2 items-center">
         <input
           type="text"
           placeholder="Add Subtask"
-          value={currentSubTask.title}
+          
+          value={currentSubTask.title||""}
           onChange={(e) => setCurrentSubTask({ ...currentSubTask, title: e.target.value })}
           onKeyDown={(e) => e.key === "Enter" && handleSave()}
           className="w-full rounded-2xl bg-white px-3 py-2"
@@ -68,15 +75,13 @@ const SubTaskForm = ({ task, setTaskData, setAddSubTask, editingSubTask, setEdit
         <input
           type="text"
           placeholder="Add description"
-          value={currentSubTask.description}
+          value={currentSubTask.description||""}
           onChange={(e) => setCurrentSubTask({ ...currentSubTask, description: e.target.value })}
           onKeyDown={(e) => e.key === "Enter" && handleSave()}
           className="w-full rounded-2xl bg-white px-3 py-2"
         />
         
       </div>
-
-
       {showDetail && (
         <div className="flex flex-col space-y-2 text-sm">
           <div className="flex justify-between">
@@ -92,6 +97,8 @@ const SubTaskForm = ({ task, setTaskData, setAddSubTask, editingSubTask, setEdit
             <span>Reminder</span>
             <input
               type="datetime-local"
+              min={today}
+             max={dueDate}
               value={currentSubTask.remainderDate}
               onChange={(e) =>
                 setCurrentSubTask({ ...currentSubTask, remainderDate: e.target.value })

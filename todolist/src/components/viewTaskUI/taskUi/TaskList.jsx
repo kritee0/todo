@@ -3,7 +3,7 @@ import { MdOutlineModeEditOutline, MdDelete } from "react-icons/md";
 import TaskDetail from "./TaskDetail.jsx";
 import TaskFilter from "../../logic/TaskFilter.jsx";
 import { usePriority } from "../../../hook/usePriority.js";
-import TaskButton from "../../../pages/TaskButton.jsx";
+
 
 const TaskList = ({
   tasks,
@@ -17,12 +17,9 @@ const TaskList = ({
 
 }) => {
   const [openDetails, setOpenDetails] = useState(null);
-
+  
   const { selectedPriority, setSelectedPriority, sortedTasks } =
     usePriority(tasks);
-  
-
-
  const finalTasks = sortedTasks().filter((task) => {
   // if (filter === "completed") return task.completed;
   // if (filter === "pending") return !task.completed;
@@ -42,38 +39,38 @@ const TaskList = ({
       </div>
 
       <TaskFilter
-      tasks={tasks}
+        tasks={tasks}
         filter={filter}
         setFilter={setFilter}
         selectedPriority={selectedPriority}
         setSelectedPriority={setSelectedPriority}
       />
        {/* <TaskButton text="Add Task" primary onClick={() => setShowForm(true)} /> */}
-
+  
       <div className="max-w-full  flex flex-col   h-auto    space-y-4 ">
         
         {finalTasks.map((task) => (
           <div
             key={task.id}
           
-            className="flex  justify-between items-center bg-opacity/50  border-gray-200 shadow-md h-auto p-4 rounded-md cursor-pointer"
+            className={` flex  justify-between items-center bg-opacity/50  border-gray-200 shadow-md h-auto p-4 rounded-md cursor-pointer${
+                    task.completed ? "line-through text-gray-400" : " flex  justify-between items-center bg-opacity/50  border-gray-200 shadow-md h-auto p-4 rounded-md cursor-pointer"
+                  }`}
           >
             <div className="flex items-center space-x-4">
-              <input
+              {/* <input
                 type="checkbox"
                 checked={task.completed}
                 onChange={(e) => {
                   e.stopPropagation();
                   onToggle(task);
                 }}
-              />
+              /> */}
               <div className="flex flex-col justify-end "   onClick={() =>
                     setOpenDetails(openDetails === task.id ? null : task.id)
                   }>
                 <p
-                  className={
-                    task.completed ? "line-through text-gray-400" : "font-semibold"
-                  }
+                 
                 >
                   {task.title}
                 </p>
@@ -95,7 +92,7 @@ const TaskList = ({
                    </div>
               <MdOutlineModeEditOutline
                 className="cursor-pointer"
-                onClick={() => onEdit(task)}
+                onClick={() =>  !task.completed?onEdit(task):"undefined"}
               />
               <MdDelete
                 className="cursor-pointer"
