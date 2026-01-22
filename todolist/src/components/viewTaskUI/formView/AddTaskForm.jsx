@@ -30,17 +30,14 @@ const AddTaskFormUI = ({
   setRemainderDate,
   showRemainderDate,
   setShowRemainderDate,
+  onCancel
+  
  
 }) => {
-  
-  const {pathname}=useLocation()
-  const showAddtask = !pathname.startsWith("/view/tasks")
-  if (!showForm)
-    return (
-      <div className={` border-gray-200 justify-end my-4 ${!showAddtask ? "hidden" : "flex"}`}>
+ 
+     
         <TaskButton text="Add Task" primary onClick={() => setShowForm(true)} />
-      </div>
-    );
+   
 
   return (
     <div  className="max-w-3xl mx-auto bg-white shadow-lg border-2 border-gray-200 rounded-2xl p-6 space-y-4">
@@ -51,10 +48,18 @@ const AddTaskFormUI = ({
         </h2>
         <RxCross2
           className="cursor-pointer text-red-500"
-          onClick={() => {
-             console.log("clicked")
-            setShowForm(false)
-          }}
+          onClick={onCancel}
+
+           
+  //  setAddTitle(initialData?.title || "");
+  //   setAddDescription(initialData?.description || "");
+  //   setPriority(initialData?.priority || "");
+  //   setDate(initialData?.date ? new Date(initialData.date) : new Date());
+  //   setRemainderDate(initialData?.remainderDate ? new Date(initialData.remainderDate) : null);
+  //   setShowInbox(false);
+  //   setShowDate(false);
+  //   setShowRemainderDate(false);
+   
         />
       </div>
 

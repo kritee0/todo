@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 
-const AddTaskForm = ({ projectId, initialData, onTaskAdded, onTaskSaved, ref }) => {
+const AddTaskForm = ({ projectId, initialData, onTaskAdded, onTaskSaved, ref ,setEditingTask}) => {
   const navigate = useNavigate();
 
   const [addTitle, setAddTitle] = useState("");
@@ -22,7 +22,9 @@ const AddTaskForm = ({ projectId, initialData, onTaskAdded, onTaskSaved, ref }) 
   const [selectedProjectName, setSelectedProjectName] = useState("");
   const [remainderDate, setRemainderDate] = useState(null);
   const [showRemainderDate, setShowRemainderDate] = useState(false);
-
+useEffect(()=>{
+  console.log(showForm)
+},[showForm])
   
   useEffect(() => {
     if (initialData) {
@@ -75,7 +77,7 @@ const AddTaskForm = ({ projectId, initialData, onTaskAdded, onTaskSaved, ref }) 
     if (initialData) {
       result = await updateTask({ ...taskData, id: initialData.id });
       if (onTaskSaved) onTaskSaved(result);
-      onTaskSaved?.(taskData);//state update immediately
+      onTaskSaved?.(taskData);
       toast("Task updated successfully!");
     } else {
       result = await addTask(taskData);
@@ -94,11 +96,16 @@ const AddTaskForm = ({ projectId, initialData, onTaskAdded, onTaskSaved, ref }) 
     setSelectedProjectName(name);
     setShowInbox(false);
   };
+  const onCancel=()=>{
+     resetForm();
+    setShowForm(false);
+   setEditingTask(false)
+  }
 
   return (
     <>
     <AddTaskFormUI
-    // ref={ref}
+   ref={ref}
       addTitle={addTitle}
       setAddTitle={setAddTitle}
       addDescription={addDescription}
@@ -124,6 +131,7 @@ const AddTaskForm = ({ projectId, initialData, onTaskAdded, onTaskSaved, ref }) 
       initialData={initialData}
       showRemainderDate={showRemainderDate}
       setShowRemainderDate={setShowRemainderDate}
+      onCancel={onCancel}
     />
     {/* <TaskList setShowForm={setShowForm}/> */}
     </>

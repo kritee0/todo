@@ -89,7 +89,7 @@ const Taskpages = () => {
   </div>
 
 
-  <div className=" flex justify-end">
+  {/* <div className=" flex justify-end">
     
     <AddTaskForm
       projectId={numericProjectId}
@@ -106,7 +106,7 @@ const Taskpages = () => {
       }
     />
     
-  </div>
+  </div> */}
 
  
   {tasks.length > 0 ? (

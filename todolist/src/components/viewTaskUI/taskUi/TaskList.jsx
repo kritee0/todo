@@ -3,8 +3,6 @@ import { MdOutlineModeEditOutline, MdDelete } from "react-icons/md";
 import TaskDetail from "./TaskDetail.jsx";
 import TaskFilter from "../../logic/TaskFilter.jsx";
 import { usePriority } from "../../../hook/usePriority.js";
-
-
 const TaskList = ({
   tasks,
   filter,
@@ -25,8 +23,11 @@ const TaskList = ({
   // if (filter === "pending") return !task.completed;
   // if(filter==="ongoing") return !task.completed;
   // if(filter==="Abondant") return !task.Skip;
-  if (filter === "all")
-  return true;
+  if (filter === "all"){
+    
+ return !task.completed;
+  }
+ 
   return task.status === filter;
 });
 
@@ -37,7 +38,6 @@ const TaskList = ({
       <div className="flex  flex-col justify-between">
         <h2 className="text-2xl font-bold text-indigo-500 mb-4">My Tasks</h2>
       </div>
-
       <TaskFilter
         tasks={tasks}
         filter={filter}
@@ -47,17 +47,16 @@ const TaskList = ({
       />
        {/* <TaskButton text="Add Task" primary onClick={() => setShowForm(true)} /> */}
   
-      <div className="max-w-full  flex flex-col   h-auto    space-y-4 ">
+      <div className="max-w-full  flex flex-col   h-auto   mt-4   space-y-4 ">
         
         {finalTasks.map((task) => (
           <div
             key={task.id}
           
-            className={` flex  justify-between items-center bg-opacity/50  border-gray-200 shadow-md h-auto p-4 rounded-md cursor-pointer${
-                    task.completed ? "line-through text-gray-400" : " flex  justify-between items-center bg-opacity/50  border-gray-200 shadow-md h-auto p-4 rounded-md cursor-pointer"
+            className={` flex  justify-between items-center   border-gray-200 shadow-md h-auto p-4 rounded-md cursor-pointer
                   }`}
           >
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4" onClick={(e) => e.stopPropagation()}>
               {/* <input
                 type="checkbox"
                 checked={task.completed}
@@ -89,12 +88,20 @@ const TaskList = ({
             <div className="flex items-center space-x-3">
               <div className="bg-blue-400 px-2 rounded-md">
                    <p className="text-md text-white">{task.priority}</p>
-                   </div>
-              <MdOutlineModeEditOutline
-                className="cursor-pointer"
-                onClick={() =>  !task.completed?onEdit(task):"undefined"}
-              />
-              <MdDelete
+                    </div>
+                    <MdOutlineModeEditOutline
+                      className={`cursor-pointer ${
+                        task.completed ? "opacity-50 cursor-not-allowed" : ""
+                      }`}
+                      onClick={(e) => {
+                        e.stopPropagation(); 
+                        console.log("EDIT ICON CLICKED:", task.id);      
+                        if (!task.completed) {
+                          onEdit(task);
+                        }
+                      }}
+                    />
+                  <MdDelete
                 className="cursor-pointer"
                 onClick={() => onrequestDelete(task)}
               />

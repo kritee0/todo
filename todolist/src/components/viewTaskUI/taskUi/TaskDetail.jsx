@@ -9,7 +9,6 @@ import { updateTask } from "../../../hook/TaskCrud";
 // import { updateProject } from "../../../hook/ProjectCrud";
 import Priority from "../../logic/Priority";
 import { usePriority } from "../../../hook/usePriority";
-import TaskButton from "../../../pages/TaskButton";
 import { toast } from "react-toastify";
 // import { BsThreeDotsVertical } from "react-icons/bs";
 const TaskDetail = ({

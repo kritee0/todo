@@ -5,7 +5,7 @@ import { Tally4, CircleDashed, ListCheck } from "lucide-react";
 import { StepForward, ChartSpline  } from 'lucide-react';
 
 const TaskFilter = ({tasks, filter, setFilter, selectedPriority, setSelectedPriority }) => {
-  const allCount=tasks.length
+  const allCount=tasks.filter(t=>!t.completed).length
   // const All =tasks.filter(t=>t.status==="all").length
   const pendingCount =tasks.filter(t=>t.status==="pending").length
   
