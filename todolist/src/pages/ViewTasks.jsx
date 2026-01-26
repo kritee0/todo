@@ -1,82 +1,32 @@
-import React, { useEffect, useRef, useState } from "react";
-import { getTasks, updateTask, deleteTask } from "../hook/TaskCrud";
-import AddTaskForm from "./Addtask";
-import { initDB } from "../database/db";
+import React ,{useEffect}from "react";
 import TaskList from "../components/viewTaskUI/taskUi/TaskList";
+import AddTaskForm from "./Addtask";
 import Model from "../common/model";
-import { useLocation } from "react-router-dom";
-
+import { useTasksHook } from "../hook/useTaskHook"
 const ViewTasks = () => {
-  const ref = useRef(null);
-  const location = useLocation();
-  const [tasks, setTasks] = useState([]);
-  const [editingTask, setEditingTask] = useState(null);
-  const [filter, setFilter] = useState("all");
-  const [showConform, setShowConform] = useState(false);
-  const [taskDelete, setTaskDelete] = useState(null);
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const urlFilter = params.get("filter") || "pending";
-    setFilter(urlFilter);
-  }, [location.search]);
-  useEffect(() => {
-    console.log("editingTask changed:", editingTask);
-  }, [editingTask]);
 
-  useEffect(() => {
-    if (ref?.current) {
-      ref.current.scrollIntoView({ block: "start" });
-    }
-  }, [editingTask]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await initDB();
-        const allTasks = await getTasks();
-        setTasks(allTasks);
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const handleToggle = async (task) => {
-    const completed = !task.completed;
-    const status = completed ? "completed" : task.status;
-
-    const updatedTask = { ...task, completed, status };
-
-    await updateTask(updatedTask);
-
-    setTasks((prev) => prev.map((t) => (t.id === task.id ? updatedTask : t)));
-  };
-
-  const onrequestDelete = (task) => {
-    setTaskDelete(task);
-    setShowConform(true);
-  };
-
-  const handleDelete = async (id) => {
-    await deleteTask(id);
-    setTasks((prev) => prev.filter((t) => t.id !== id));
-  };
-
-  const handleEditSave = (updatedTask) => {
-    setTasks((prev) =>
-      prev.map((t) => (t.id === updatedTask.id ? updatedTask : t)),
-    );
-    setEditingTask(null);
-  };
-
-  const handleStatusChangeInParent = (updatedTask) => {
-    setTasks((prev) =>
-      prev.map((t) => (t.id === updatedTask.id ? updatedTask : t)),
-    );
-  };
-
+ 
+  const {
+    ref,
+    tasks,
+    filter,
+    setFilter,
+    editingTask,
+    setEditingTask,
+    showConfirm,
+    taskDelete,
+    handleToggle,
+    requestDelete,
+    handleDelete,
+    handleEditSave,
+    handleStatusChangeInParent,
+  } = useTasksHook();
+   useEffect(()=>{
+    console.log(editingTask)
+    
+  
+  },[editingTask])
   return (
     <>
       <TaskList
@@ -84,25 +34,17 @@ const ViewTasks = () => {
         filter={filter}
         setFilter={setFilter}
         onToggle={handleToggle}
-        onrequestDelete={onrequestDelete}
+        onrequestDelete={requestDelete}
         onEdit={setEditingTask}
         editingTask={editingTask}
         onStatusChangeInParent={handleStatusChangeInParent}
       />
-      {showConform && taskDelete && (
+      {showConfirm && taskDelete && (
         <Model
           message={`Are you sure you want to delete "${taskDelete.title}"?`}
-          onConform={async () => {
-            await handleDelete(taskDelete.id);
-            setShowConform(false);
-            setTaskDelete(null);
-            console.log(setShowConform);
-          }}
-          onCancel={() => {
-            setShowConform(false);
-            setTaskDelete(null);
-          }}
-        ></Model>
+          onConform={() => handleDelete(taskDelete.id)}
+        onCancel={() => setEditingTask(null)}
+        />
       )}
 
       {editingTask && (
@@ -110,9 +52,9 @@ const ViewTasks = () => {
           ref={ref}
           key={editingTask.id}
           initialData={editingTask}
-          onTaskSaved={handleEditSave}
           setEditingTask={setEditingTask}
-          onCancel={()=>{setEditingTask(null) }}
+          onTaskSaved={handleEditSave}
+          onCancelled={() => setEditingTask(null)}
         />
       )}
     </>
@@ -120,3 +62,4 @@ const ViewTasks = () => {
 };
 
 export default ViewTasks;
+

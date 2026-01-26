@@ -18,11 +18,13 @@ export function addTask(task) {
 export function getTaskByProjectId(projectId) {
   return runTransaction("tasks", "readonly", (store) => store.getAll())
     .then(tasks => {
-      console.log("All tasks:", tasks);
-      return tasks.filter(task => Number(task.projectId) === Number(projectId));
-    });
+      console.log("All tasks:", tasks);  
+      const filteredTask= tasks.filter(task => Number(task.projectId) === Number(projectId));  
+      console.log( "filter atsk is",filteredTask)
+      return filteredTask
+         
+    });  
 }
-
 export function getTasks(){
     return runTransaction("tasks","readonly",(store)=>store.getAll())
 }

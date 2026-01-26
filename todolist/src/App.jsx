@@ -37,7 +37,7 @@ const router = createBrowserRouter(
       <Route path="view/tasks" element={<ViewTasks />} />
         <Route path="view/tasks/:id" element={<TaskDeatil/>} />
       <Route path="/tasks/new" element={<AddTaskForm />} />
-       <Route path="/kritee/new" element={<kritee />} />
+     
     </Route>
       </>
   )

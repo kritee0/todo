@@ -7,8 +7,7 @@ import { StepForward, ChartSpline  } from 'lucide-react';
 const TaskFilter = ({tasks, filter, setFilter, selectedPriority, setSelectedPriority }) => {
   const allCount=tasks.filter(t=>!t.completed).length
   // const All =tasks.filter(t=>t.status==="all").length
-  const pendingCount =tasks.filter(t=>t.status==="pending").length
-  
+  const pendingCount =tasks.filter(t=>t.status==="pending").length 
   const completedCount =tasks.filter(t=>t.status==="completed").length
   const ongoingCount=tasks.filter(t=>t.status==="ongoing").length
    const AbondantCount=tasks.filter(t=>t.status==="abundant").length

@@ -12,7 +12,7 @@ const Sidebar = () => {
 
   return (
     <div className="sticky top-0 w-64 max-w-md h-screen bg-white shadow-2xl flex flex-col">
-      <div className="flex px-3 mt-12 mb-4 font-bold text-gray-600 text-3xl">
+      <div className="flex px-3 mb-4 font-bold text-gray-600 text-3xl">
         TODO App
       </div>
 

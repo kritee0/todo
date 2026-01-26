@@ -69,6 +69,7 @@ const Status = ({ openStatus, setOpenStatus,onStatusChange,currentStatus,disable
 export default Status;
 
 
+
   /* <select  value={status} onChange={()=>{setStatus(e.target.value)}} className='px-1 py-2  rounded-md  text-sm outline-none bg-black'> 
             <option>pending</option>
             <option>Completed</option>

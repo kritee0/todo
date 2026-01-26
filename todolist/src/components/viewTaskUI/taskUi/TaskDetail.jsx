@@ -28,6 +28,7 @@ const TaskDetail = ({
     description: "",
     remainderDate: "",
     priority: "none",
+   
     completed: false,
   });
   const taskDetailRef=useRef(null)

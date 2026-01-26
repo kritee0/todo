@@ -19,10 +19,7 @@ const TaskList = ({
   const { selectedPriority, setSelectedPriority, sortedTasks } =
     usePriority(tasks);
  const finalTasks = sortedTasks().filter((task) => {
-  // if (filter === "completed") return task.completed;
-  // if (filter === "pending") return !task.completed;
-  // if(filter==="ongoing") return !task.completed;
-  // if(filter==="Abondant") return !task.Skip;
+ 
   if (filter === "all"){
     
  return !task.completed;
