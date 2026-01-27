@@ -3,7 +3,7 @@ import { getTasks, updateTask, deleteTask } from "./TaskCrud";
 import { initDB } from "../database/db";
 import { useLocation } from "react-router-dom";
 
-export const useTasksHook = () => {
+export const useTasksHook = (projectId = null) => {
   const ref = useRef(null);
   const location = useLocation();
 
@@ -15,65 +15,55 @@ export const useTasksHook = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const urlFilter = params.get("filter") || "pending";
-    setFilter(urlFilter);
+    setFilter(params.get("filter") || "pending");
   }, [location.search]);
-
-  
-  useEffect(() => {
-    if (editingTask && ref.current) {
-      ref.current.scrollIntoView({ block: "start" });
-    }
-  }, [editingTask]);
-
 
   useEffect(() => {
     const fetchTasks = async () => {
       await initDB();
-      const allTasks = await getTasks();
+      let allTasks = await getTasks();
+
+      // ✅ PROJECT FILTER
+      if (projectId) {
+        allTasks = allTasks.filter(
+          task => String(task.projectId) === String(projectId)
+        );
+      }
+
       setTasks(allTasks);
     };
-    fetchTasks();
-  }, []);
 
-  
+    fetchTasks();
+  }, [projectId]);
+
   const handleToggle = async (task) => {
     const completed = !task.completed;
     const status = completed ? "completed" : task.status;
-
     const updatedTask = { ...task, completed, status };
-    await updateTask(updatedTask);
 
-    setTasks((prev) =>
-      prev.map((t) => (t.id === task.id ? updatedTask : t))
-    );
+    await updateTask(updatedTask);
+    setTasks(prev => prev.map(t => t.id === task.id ? updatedTask : t));
   };
 
-  
   const requestDelete = (task) => {
     setTaskDelete(task);
     setShowConfirm(true);
   };
 
-
   const handleDelete = async (id) => {
     await deleteTask(id);
-    setTasks((prev) => prev.filter((t) => t.id !== id));
+    setTasks(prev => prev.filter(t => t.id !== id));
     setShowConfirm(false);
     setTaskDelete(null);
   };
 
-
   const handleEditSave = (updatedTask) => {
-    setTasks((prev) =>
-      prev.map((t) => (t.id === updatedTask.id ? updatedTask : t))
-    );
+    setTasks(prev => prev.map(t => t.id === updatedTask.id ? updatedTask : t));
     setEditingTask(null);
   };
+
   const handleStatusChangeInParent = (updatedTask) => {
-    setTasks((prev) =>
-      prev.map((t) => (t.id === updatedTask.id ? updatedTask : t))
-    );
+    setTasks(prev => prev.map(t => t.id === updatedTask.id ? updatedTask : t));
   };
 
   return {
@@ -90,6 +80,5 @@ export const useTasksHook = () => {
     handleDelete,
     handleEditSave,
     handleStatusChangeInParent,
-  
   };
 };

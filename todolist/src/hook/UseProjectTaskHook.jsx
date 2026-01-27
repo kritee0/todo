@@ -25,27 +25,7 @@ export const useProjectTasksHook = () => {
   }, [numericProjectId]);
 
 
-  // const handleToggle = async (task) => {
-  //   const newStatus =
-  //     task.status === "pending"
-  //       ? "ongoing"
-  //       : task.status === "ongoing"
-  //       ? "completed"
-  //       : "pending";
-
-  //   const updatedTask = {
-  //     ...task,
-  //     status: newStatus,
-  //     completed: newStatus === "completed",
-  //   };
-
-  //   await updateTask(updatedTask);
-
-  //   setTasks((prev) =>
-  //     prev.map((t) => (t.id === task.id ? updatedTask : t))
-  //   );
-  // };
-
+  
   const handleDelete = async (id) => {
     await deleteTask(id);
     setTasks((prev) => prev.filter((t) => t.id !== id));
@@ -56,7 +36,7 @@ export const useProjectTasksHook = () => {
     tasks,             
     editingTask,
     setEditingTask,
-    // handleToggle,
+   
     handleDelete,
   };
 };

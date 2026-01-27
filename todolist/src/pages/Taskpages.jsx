@@ -1,80 +1,77 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import { IoIosArrowBack } from "react-icons/io";
-import { useProjectTasksHook } from "../hook/useProjectTaskHook";
-import { getTaskByProjectId } from "../hook/TaskCrud";
-
+import TaskList from "../components/viewTaskUI/taskUi/TaskList";
+import AddTaskForm from "./Addtask";
+import Model from "../common/model";
+import { useTasksHook } from "../hook/useTaskHook"
 
 const Taskpages = () => {
-  
-  const {projectId}=useParams();
-  console.log(" project id",projectId)
+  const { projectId } = useParams();
+  const navigate = useNavigate();
 
- const navigate = useNavigate();
- const {
-    project,
+  const {
+    ref,
     tasks,
-      SetTasks,
-    // handleToggle,
-    // handleDelete,
-    // setEditingTask,
-  } = useProjectTasksHook();
-
-//  useEffect(() => {
- 
-//   const fetchData = async () => {
-//     const hehe = await getTaskByProjectId(projectId); 
-//     console.log("this is", {hehe});  
-//   };
-  
-//   fetchData();
-// },[projectId] );  
-useEffect(() => {
-  const fetchData = async () => {  
-    const fetchedTasks = await getTaskByProjectId(projectId);
-     console.log("Fetched tasks:", fetchedTasks); 
-  
-    SetTasks(fetchedTasks);    
-  }; 
-
-  if (projectId) fetchData();
-}, [projectId]);
-// useEffect(()=>{
-//   console.log("abc")
-// })
+    filter,
+    setFilter,
+    editingTask,
+    setEditingTask,
+    showConfirm,
+    taskDelete,
+    handleToggle,
+    requestDelete,
+    handleDelete,
+    handleEditSave,
+    handleStatusChangeInParent,
+  } = useTasksHook(projectId);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6">
+    <div className="max-w-6xl mx-auto px-4 py-6">
       <div
         onClick={() => navigate(-1)}
-        className="flex items-center gap-1 text-gray-600 hover:text-violet-500 cursor-pointer mb-3"
+        className="flex items-center gap-1 text-gray-600 hover:text-violet-500 cursor-pointer mb-4"
       >
-        {/* <IoIosArrowBack size={18} /> */}
+    
         <h2 className="text-xl font-semibold text-blue-950">
-         {project?.name}
-
-
-          <div>
-        {tasks.length === 0 ? (
-          <p>No tasks found for this project.</p>
-        ) : (
-          tasks.map((task) => (
-            <div
-              key={task.id}
-              className="p-3 mb-2 border rounded hover:bg-gray-100 flex justify-between items-center"
-            >
-              <span>{task.title}</span>
-            </div>
-          ))
-        )}
-      </div>
+         {/* {project?.name} */}
         </h2>
       </div>
 
+    <TaskList
+        tasks={tasks}
+        filter={filter}
+        setFilter={setFilter}
+        onToggle={handleToggle}
+        onrequestDelete={requestDelete}
+        onEdit={setEditingTask} 
+        editingTask={editingTask}
+        onStatusChangeInParent={handleStatusChangeInParent}
+      />
+
+
+
+    
+      {showConfirm && taskDelete && (
+        <Model
+          message={`Are you sure you want to delete "${taskDelete.title}"?`}
+          onConform={() => handleDelete(taskDelete.id)}
+          onCancel={() => setEditingTask(null)}
+        />
+      )}
+
+     
+      {editingTask && (
+        <AddTaskForm
+          ref={ref}
+          key={editingTask.id}
+          initialData={editingTask}
+          setEditingTask={setEditingTask}
+          onTaskSaved={handleEditSave}
+          onCancelled={() => setEditingTask(null)}
+        />
+      )}
     </div>
-
-
   );
 };
 

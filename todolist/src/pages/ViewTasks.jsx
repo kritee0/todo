@@ -4,9 +4,6 @@ import AddTaskForm from "./Addtask";
 import Model from "../common/model";
 import { useTasksHook } from "../hook/useTaskHook"
 const ViewTasks = () => {
-
-
- 
   const {
     ref,
     tasks,
